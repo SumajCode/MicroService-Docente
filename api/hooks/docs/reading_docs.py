@@ -1,7 +1,7 @@
 import openpyxl
 import pdfplumber
 
-from hooks.db.formater import format_sql_insert
+from orm.formater import format_sql_insert
 
 def read_xls(path: str):
   """
