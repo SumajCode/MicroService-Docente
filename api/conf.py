@@ -1,7 +1,8 @@
 class BaseConf():
     APP_NAME = "YalaSoft XD"
     APP_VERSION = "1.0.0"
-    API_URL = "http://127.0.0.1"
+    HOST = "http://127.0.0.1"
+    PORT_API = 5000
     SECRET_KEY = ""
     DEBUG = True
     TESTING = False
