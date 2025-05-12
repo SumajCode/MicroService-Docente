@@ -29,14 +29,11 @@ class BaseConf():
     GOOGLE_AUTENTICATION_CLIENT_ID = ""
     GOOGLE_AUTHENTICATION_CLIENT_SECRET = ""
 
-    CODE_COMPILATOR_CLIENT_ID = ""
-    CODE_COMPILATOR_CLIENT_SECRET = ""
+    # CODE_IA_API_KEY = ""
+    # CODE_IA_CLIENT_ID = ""
+    # CODE_IA_CLIENT_SECRET = ""
 
-    CODE_IA_API_KEY = ""
-    CODE_IA_CLIENT_ID = ""
-    CODE_IA_CLIENT_SECRET = ""
-
-    PUBLISHER_URL = ""
+    PUBLISHER_URL = "" # url del servidor de contenido
     PUBLISHER_USER = ""
     PUBLISHER_PASSWORD = ""
 

@@ -1,3 +1,3 @@
-from api.hooks.docs.reading_docs import read_pdf, read_xls
+from hooks.docs.ReadingDocs import *
 
-read_xls("C:/Users/USER/Downloads/Test de insercion de datos a database.xlsx")
+leerXLS("C:/Users/USER/Downloads/Test de insercion de datos a database.xlsx")

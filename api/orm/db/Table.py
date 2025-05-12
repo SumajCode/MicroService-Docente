@@ -1,10 +1,10 @@
 import Column
 
-class Table:
-    def __init__(self, name: str, **columns: Column):
-        self.name = name
-        self.columns = columns
+class Tabla:
+    def __init__(self, nombreTabla: str, **columnas: Column):
+        self.nombreTabla = nombreTabla
+        self.columnas = columnas
 
-    def query_table(self):
-        values = [i.column_sql() for i in self.columns]
-        return f"CREATE TABLE {self.name} ({",".join(values)})"
+    def consultaCrearTabla(self):
+        values = [i.columnaSQL() for i in self.columnas]
+        return f"CREATE TABLE {self.nombreTabla} ({",".join(values)})"

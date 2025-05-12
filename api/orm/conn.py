@@ -3,7 +3,7 @@ import psycopg
 
 from api.conf import BaseConf
 
-def connect_sql():
+def conectarSQL():
     """
     Connect to a SQLite database and return a cursor object.
 
@@ -23,7 +23,7 @@ def connect_sql():
     conn = sqlite3.connect(BaseConf.SQL_DB)
     return conn.cursor()
 
-def connect_postgres():
+def conectarPostgres():
     """Connect to a PostgreSQL database
     
     Parameters

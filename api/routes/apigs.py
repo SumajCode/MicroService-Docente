@@ -3,26 +3,15 @@ from flask import jsonify
 from flask import request
 from flask_cors import CORS
 
-from errors.ErrorsClients import *
-from errors.ErrorsServer import *
+from hooks.docs.ReadingDocs import *
 
-from hooks.docs.reading_docs import read_xls
-
-def createApp():
+def crearApp():
     app = Flask(__name__)
     CORS(app)
     app.config.from_object('conf.BaseConf')
     return app
 
-app = createApp()
-
-@app.errorhandler(HTTPException)
-def handle_error(e):
-    return jsonify({
-        'data': e.description, 
-        'message' : e.name, 
-        'status' : e.code
-    }), e.code
+app = crearApp()
 
 @app.route('/')
 def home():
@@ -32,18 +21,24 @@ def home():
         'status' : 200
     })
 
-@app.route('/recolectarDatos', methods=['POST'])
-def recolectarDatos():
+
+
+@app.route('/recolectarDatos/xls', methods=['POST'])
+def recolectarDatosXLS():
     return jsonify({
-        'data': read_xls(request.args['path']), 
+        'data': leerXLS(request.form.get['file']),
         'message' : 'OK',
         'status' : 200
     })
 
-@app.route('/error')
-def handleErrors():
-    if () :
-        raise ServerError()
+@app.route('/recolectarDatos/pdf', methods=['POST'])
+def recolectarDatosPDF():
+    return jsonify({
+        'data': leerPDF(request.form.get['file']),
+        'message' : 'OK',
+        'status' : 200
+    })
+
 
 if __name__ == '__main__' :
     app.run()
