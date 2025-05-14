@@ -1,4 +1,4 @@
-from compiler.hooks.Compiler import Compilador
+from ...compiler.hooks.Compiler import Compilador
 
 compilador = Compilador()
 compilador.Compilar('''
