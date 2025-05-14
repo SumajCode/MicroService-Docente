@@ -1,3 +1,3 @@
-from hooks.docs.ReadingDocs import *
+from ..hooks.docs.ReadingDocs import ReadingDocs
 
-leerXLS("C:/Users/USER/Downloads/Test de insercion de datos a database.xlsx")
+ReadingDocs.leerXLS("C:/Users/USER/Downloads/Test de insercion de datos a database.xlsx")

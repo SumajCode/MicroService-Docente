@@ -1,6 +1,6 @@
-from errors.ErrorsServer import *
+from .errors.ErrorsServer import *
 from flask import jsonify
-from hooks.Compiler import *
+from ..hooks.Compiler import *
 
 
 # def get():

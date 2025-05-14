@@ -3,12 +3,12 @@ from flask import jsonify
 from flask import request
 from flask_cors import CORS
 
-from hooks.docs.ReadingDocs import *
+from ..hooks.docs.ReadingDocs import ReadingDocs
 
 def crearApp():
     app = Flask(__name__)
     CORS(app)
-    app.config.from_object('conf.BaseConf')
+    app.config.from_object('api.conf.BaseConf')
     return app
 
 app = crearApp()
@@ -26,7 +26,7 @@ def home():
 @app.route('/recolectarDatos/xls', methods=['POST'])
 def recolectarDatosXLS():
     return jsonify({
-        'data': leerXLS(request.form.get['file']),
+        'data': ReadingDocs.leerXLS(request.form.get['file']),
         'message' : 'OK',
         'status' : 200
     })
@@ -34,7 +34,7 @@ def recolectarDatosXLS():
 @app.route('/recolectarDatos/pdf', methods=['POST'])
 def recolectarDatosPDF():
     return jsonify({
-        'data': leerPDF(request.form.get['file']),
+        'data': ReadingDocs.leerPDF(request.form.get['file']),
         'message' : 'OK',
         'status' : 200
     })

@@ -1,4 +1,4 @@
-from errors.ErrorsServer import *
+from .errors.ErrorsServer import *
 from flask import request, jsonify
 from conf import BaseConf
 

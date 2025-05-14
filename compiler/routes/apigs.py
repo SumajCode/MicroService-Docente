@@ -2,12 +2,12 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 from flask_cors import CORS
-from controllers.CodeController import CodeController
+from ..controllers.CodeController import CodeController
 
 def createApp():
     app = Flask(__name__)
     CORS(app)
-    app.config.from_object('conf.BaseConf')
+    app.config.from_object('api.conf.BaseConf')
     return app
 
 app = createApp()
@@ -45,7 +45,7 @@ def compilarCodigo():
     
     return CodeController.post(request.form.get('data'), request.form.get('lang'))
 
-@app.route('/testCompiler')
+@app.route('/evaluarCodigo')
 def compiler():
     return 
 # @app.route('/error')
