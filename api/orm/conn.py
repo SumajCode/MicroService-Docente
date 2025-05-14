@@ -1,7 +1,7 @@
 import sqlite3
 import psycopg
 
-from ..conf import BaseConf
+from conf import BaseConf
 
 class Conexion:
     def conectarSQL():
