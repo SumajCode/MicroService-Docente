@@ -1,7 +1,7 @@
 import openpyxl
 import pdfplumber
 
-from orm.formater import Formater
+from ...scripts.formater import Formater
 
 class ReadingDocs:
     def __init__(self):
@@ -36,7 +36,7 @@ class ReadingDocs:
             # ]
         return Formater().formatoSQLInsertar('tabla', nombreColumnas, valoresColumna)
 
-    def leerPDF(ruta: str):
+    def leerPDF(self, ruta: str):
         """
         Reads a PDF file and creates a SQL insert statement from the data it contains
 
@@ -60,4 +60,4 @@ class ReadingDocs:
                 for valor in fila:
                     preFila.append(str(int(valor)) if valor.isdigit() else "\""+str(valor)+"\"")
                 valores.append(preFila)
-        return Formater.formatoSQLInsertar(table="tabla", columns=columns, values=valores)
+        return Formater().formatoSQLInsertar(table="tabla", columns=columns, values=valores)

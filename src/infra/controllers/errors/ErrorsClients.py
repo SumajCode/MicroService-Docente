@@ -1,29 +1,33 @@
 from werkzeug.exceptions import HTTPException
 
-class InvalidAccess(HTTPException):
-    code = 403
-    description = 'Acceso del usuario no autorizado al sistema.'
+class APIHTTPExceptionsClient(HTTPException):
+    def __init__(self):
+        pass
 
-class InvalidUser(HTTPException):
-    code = 401
-    description = 'Autenticación del usuario necesaria.'
+    def invalidAccess(self):
+        self.code = 403
+        self.description = 'Acceso del usuario no autorizado al sistema.'
 
-class NotFound(HTTPException):
-    code = 404
-    description = 'Recurso solicitado no encontrado.'
+    def invalidUser(self):
+        self.code = 401
+        self.description = 'Autenticación del usuario necesaria.'
 
-class BadRequest(HTTPException):
-    code = 400
-    description = 'Solicitud incorrecta.'
+    def notFound(self):
+        self.code = 404
+        self.description = 'Recurso solicitado no encontrado.'
 
-class MethodNotAllowed(HTTPException):
-    code = 405
-    description = 'Tipo de método no aceptable.'
+    def badRequest(self):
+        self.code = 400
+        self.description = 'Solicitud incorrecta.'
 
-class PetitionFailed(HTTPException):
-    code = 412
-    description = 'El servidor no cumple con las condiciones que requiere.'
+    def methodNotAllowed(self):
+        self.code = 405
+        self.description = 'Tipo de método no aceptable.'
 
-class PayloadLarge(HTTPException):
-    code = 413
-    description = 'El contenido de la solicitud es demasiado grande.'
+    def petitionFailed(self):
+        self.code = 412
+        self.description = 'El servidor no cumple con las condiciones que requiere.'
+
+    def payloadLarge(self):
+        self.code = 413
+        self.description = 'El contenido de la solicitud es demasiado grande.'

@@ -1,13 +1,18 @@
 from werkzeug.exceptions import HTTPException
 
-class ServerError(HTTPException):
-    status = 500
-    description = 'Error interno del servidor.'
+class APIHTTPExceptionsServer(HTTPException):
 
-class ImplementError(HTTPException):
-    status = 501
-    description = 'Metodo no implementado.'
+    def __init__(self):
+        pass
 
-class InfiniteLoopError(HTTPException):
-    status = 508
-    description = 'Bucle infinito detectado.'
+    def serverError(self):
+        self.code = 500
+        self.description = 'Error interno del servidor.'
+
+    def implementError(self):
+        self.code = 501
+        self.description = 'Metodo no implementado.'
+
+    def infiniteLoopError(self):
+        self.code = 508
+        self.description = 'Bucle infinito detectado.'

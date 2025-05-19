@@ -1,28 +1,27 @@
-from errors.ErrorsClients import *
-class DocenteController:
+from .Controller import Controller
+from ..models.DocenteModel import DocenteModel
+
+class DocenteController(Controller):
 
     def __init__(self):
+        modelo = DocenteModel()
+        self.nombreTabla = modelo.nombreTabla
+        self.columnas = modelo.getNombreColumnas()
         pass
 
-    def get(self, id: int):
-        try:
-            # logica crear usuario
-            return jsonify({
-                'data': f"{app.config['APP_NAME']+ '-' + app.config['APP_VERSION']} is running", 
-                'message' : 'OK', 
-                'status' : 200
-            })
-        except Exception as e:
-            return jsonify({
-                'message' : 'Acceso denegado.', 
-                'status' : 401
-            })
+    def listar(self):
+        self.get()
 
-    def post(self):
+    def crear(self, request):
+        datosImportantes = {}
+        datosDocente = self.columnas
+        for i  in datosDocente:
+            datosImportantes[i] = request.form.get[i]
+        return self.post({'tabla': self.nombreTabla, 'datos': datosImportantes})
+
+    def modificar(self, request):
+
         pass
 
-    def put(self):
-        pass
-
-    def delete(self):
+    def eliminar(self):
         pass

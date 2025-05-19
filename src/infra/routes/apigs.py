@@ -3,37 +3,30 @@ from flask import jsonify
 from flask import request
 from flask_cors import CORS
 
-from ..hooks.docs.ReadingDocs import ReadingDocs
-from controllers import *
+from ..controllers.DocenteController import DocenteController
+# from ..controllers.MateriaController import MateriaController
+# from ..controllers.EvaluacionController import EvaluacionController
+from ..controllers.MatriculaController import MatriculaController
 
 def crearApp():
     app = Flask(__name__)
     CORS(app)
-    app.config.from_object('api.conf.BaseConf')
+    app.config.from_object('api.src.config.conf.BaseConf')
     return app
 
 app = crearApp()
 
 @app.route('/')
 def home():
-    DocenteController().post(dict) # tiene controllar respuesta de error y aceptada
-
-@app.route('/recolectarDatos/xls', methods=['POST'])
-def recolectarDatosXLS():
     return jsonify({
-        'data': ReadingDocs.leerXLS(request.form.get['file']),
-        'message' : 'OK',
+        'data': f"{app.config['APP_NAME']+ '-' + app.config['APP_VERSION']} is running", 
+        'message' : 'OK', 
         'status' : 200
     })
 
-@app.route('/recolectarDatos/pdf', methods=['POST'])
-def recolectarDatosPDF():
-    return jsonify({
-        'data': ReadingDocs.leerPDF(request.form.get['file']),
-        'message' : 'OK',
-        'status' : 200
-    })
-
+@app.route('/recolectarDatos', methods=['GET'])
+def recolectarDatos():
+    return MatriculaController().listar(request)
 
 if __name__ == '__main__' :
     app.run()
