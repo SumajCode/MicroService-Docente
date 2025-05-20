@@ -12,20 +12,29 @@ class Controller:
         self.ejecutor = Ejecutar()
 
     def get(self, datosObtenidos=None, opciones: dict=None):
-        datos = {}
+        datos = []
         try:
-            if datosObtenidos is None and 'tabla' in opciones:
-                temporalDatos = self.ejecutor.ejecutar(ordenarPor(
+            if datosObtenidos is None and 'tabla' in opciones.keys():
+                temporalDatos = self.ejecutor.ejecutarConsulta(ordenarPor(
                     opciones['tabla'],
                     opciones['columnas'],
                     opciones['columnaOrden'],
-                    opciones['ascen'],
-                    opciones['descen'],
+                    opciones['asc'],
+                    opciones['desc'],
                     opciones['columnaAgrupar']
                 ))
-                columnas = opciones['columnas']
-                # for i in temporalDatos:
-
+                if opciones['columnas'] is not None:
+                    columnas = opciones['columnas']
+                    for fila in temporalDatos:
+                        datosEstructurados = {}
+                        for nombreColumna in columnas:
+                            datosEstructurados[nombreColumna] = fila[nombreColumna]
+                        datos.append(datosEstructurados)
+                return jsonify({
+                    'data': datos,
+                    'message' : 'OK',
+                    'status' : 200
+                })
             return jsonify({
                 'data': datosObtenidos,
                 'message' : 'OK',
@@ -40,7 +49,7 @@ class Controller:
 
     def post(self, data):
         try:
-            data = self.ejecutor.ejecutar(insertarEnTabla(data['tabla'], data['datos']))
+            data = self.ejecutor.ejecutarConsulta(insertarEnTabla(data['tabla'], data['datos']))
             return jsonify({
                 'data': data,
                 'message' : 'OK',

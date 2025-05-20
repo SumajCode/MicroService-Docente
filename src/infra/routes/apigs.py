@@ -8,6 +8,9 @@ from ..controllers.DocenteController import DocenteController
 # from ..controllers.EvaluacionController import EvaluacionController
 from ..controllers.MatriculaController import MatriculaController
 
+# * Se usaran middlewares para mejorar la seguridad de las rutas y para separar
+# * por clase o modulo como matricula y docente al igual que para post/puts/patch de gets
+
 def crearApp():
     app = Flask(__name__)
     CORS(app)
@@ -23,6 +26,14 @@ def home():
         'message' : 'OK', 
         'status' : 200
     })
+
+@app.route('/crearDocente', methods=['POST', 'GET'])
+def crearDocente():
+    return DocenteController().crear(request)
+
+@app.route('/obtenerDocentes', methods=['GET'])
+def obtenerDocentes():
+    return DocenteController().listar()
 
 @app.route('/recolectarDatos', methods=['GET'])
 def recolectarDatos():
