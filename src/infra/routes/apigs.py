@@ -37,7 +37,7 @@ def obtenerDocentes():
 
 @app.route('/recolectarDatos', methods=['GET'])
 def recolectarDatos():
-    return MatriculaController().listar(request)
+    return MatriculaController().crear(request)
 
 if __name__ == '__main__' :
     app.run()

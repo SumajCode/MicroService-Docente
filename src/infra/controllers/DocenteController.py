@@ -21,7 +21,6 @@ class DocenteController(Controller):
             })
 
     def crear(self, request):
-        print(request.form)
         datosImportantes = {}
         datos = request.get_json() if request.is_json else request.form
         for i  in self.columnas:

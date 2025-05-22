@@ -6,7 +6,14 @@ class MatriculaController(Controller):
     def __init__(self):
         pass
 
-    def listar(self, request=None):
+    def listar(self, request):
+        try:
+            # * Mediante un inner join obtener la lista de matriculados en un curso
+            pass
+        except Exception as e:
+            pass
+         
+    def crear(self, request):
         try:
             if request is not None:
                 archivo = None
@@ -17,15 +24,11 @@ class MatriculaController(Controller):
                 else:
                     nombreArchivo = request.args.get('path')
             if nombreArchivo.split('.')[-1] == 'xlsx':
-                return self.get(datosObtenidos=ReadingDocs.leerXLS(ruta=nombreArchivo))
+                return self.get(datosObtenidos=ReadingDocs.leerXLS(nombreArchivo))
             if nombreArchivo.split('.')[-1] == 'pdf':
-                return self.get(datosObtenidos=ReadingDocs().leerPDF(nombreArchivo))
+                return self.get(datosObtenidos=ReadingDocs.leerPDF(nombreArchivo))
         except Exception as e:
             return 
-        
-         
-    def crear(self, request):
-        return 
 
     # def modificar(self):
     #     pass

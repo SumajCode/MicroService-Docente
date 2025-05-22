@@ -1,6 +1,10 @@
 from .conn import *
 from ...scripts.formater import Formater
 
+def formatoSQLInsertar(self, tabla: str, columnas: list, valores: list) -> list:
+    query = f"INSERT INTO {tabla} (" + ",".join(columnas) + ") VALUES "
+    return query + ",".join(["(" + ",".join(value) + ")" for value in valores])
+
 def foreignKey(columnas: list):
     """
     Generates a SQL FOREIGN KEY string for a list of columns.
@@ -54,7 +58,7 @@ def insertarEnTabla(nombreTabla: str, datos: dict):
     try:
         columnas = datos.keys()
         valores = ["\""+str(value)+"\"" if isinstance(value,str) else str(int(value)) for value in datos.values()]
-        return Formater().formatoSQLInsertar(nombreTabla, columnas, [valores])
+        return formatoSQLInsertar(nombreTabla, columnas, [valores])
     except Exception as e:
         return f"Error encontrado: {e}"
 
