@@ -1,11 +1,12 @@
 from .conn import *
+from .Column import Columna
 from ...scripts.formater import Formater
 
 def formatoSQLInsertar(self, tabla: str, columnas: list, valores: list) -> list:
     query = f"INSERT INTO {tabla} (" + ",".join(columnas) + ") VALUES "
     return query + ",".join(["(" + ",".join(value) + ")" for value in valores])
 
-def foreignKey(columnas: list):
+def foreignKey(columnas: list[Columna]):
     """
     Generates a SQL FOREIGN KEY string for a list of columns.
 
@@ -18,8 +19,8 @@ def foreignKey(columnas: list):
     resultado = []
     for column in columnas:
         if column.llaveForanea:
-            resultado.append(f"FOREIGN KEY ({column.columnaTablaRelacion}) REFERECES {column.referenciaTabla}(id)")
-    return ",\n".join(resultado)
+            resultado.append(f"FOREIGN KEY ({column.nombreColumna}) REFERECES {column.referenciaTabla}(id)")
+    return resultado
 
 def index(columnas: list, nombreTabla: str):
     """
@@ -39,10 +40,7 @@ def index(columnas: list, nombreTabla: str):
                 resultado.append(f"INDEX ({column.nombreColumna})")
             if BaseConf.POSTGRES_ACTIVE:
                 resultado.append(f"CREATE INDEX index_{nombreTabla}_{column.nombreColumna} ON ({column.nombreColumna})")
-    if BaseConf.SQL_ACTIVE:
-        return ",\n".join(resultado)
-    if BaseConf.POSTGRES_ACTIVE:
-        return ";\n".join(resultado)
+    return resultado
     
 def insertarEnTabla(nombreTabla: str, datos: dict):
     """

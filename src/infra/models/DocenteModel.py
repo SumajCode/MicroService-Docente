@@ -9,9 +9,11 @@ class DocenteModel(Tabla):
             nombreColumna='id', 
             tipoColumna=Integer(),
             llavePrimaria = True,
-            autoIncremental = True),
+            autoIncremental = True,
+            indexado=True),
         Columna(
             nombreColumna='id_persona',
+            referenciaTabla='persona',
             tipoColumna=Integer(),
             llaveForanea = True)]
 

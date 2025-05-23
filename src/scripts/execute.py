@@ -20,16 +20,11 @@ class Ejecutar:
         self.conn1.execute(consulta)
         return self.conn1.fetchall()
 
-
-    def crearTabla(self, function):
-        def nuevaMigracion():
-            query = function()
+    def crearTabla(self):
+        def nuevaMigracion(query):
             print("En espera de la creacion de la tabla...")
-            if self.conn.execute(query):
-                return "Creacion de tabla exitosa."
-            return "Error al crear la tabla."
-        
-    def crearTablas(self, function):
-        def nuevaMigracion():
-            
-            pass
+            print(query())
+            # if self.ejecutarConsulta(query):
+            #     return "Creacion de tabla exitosa."
+            # return "Error al crear la tabla."
+        return nuevaMigracion

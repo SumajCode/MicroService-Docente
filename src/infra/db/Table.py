@@ -17,15 +17,25 @@ class Tabla:
             str: The SQL CREATE TABLE statement.
         """
 
-        valores = []
+        parametrosTabla = []
         for i in self.columnas:
-            valores.append(i.columnaSQL())
+            parametrosTabla.append(i.columnaSQL())
+        llavesForaneas = foreignKey(self.columnas)
+        indexs = index(self.columnas, self.nombreTabla)
+        postgreIndexs = ""
+        if len(llavesForaneas) > 0:
+            parametrosTabla.extend(llavesForaneas)
+        if len(indexs) > 0:
+            if BaseConf.POSTGRES_ACTIVE is False:
+                parametrosTabla.extend(indexs)
+            else:
+                ";\n".join(indexs)
+        
         return f"""
 CREATE TABLE {self.nombreTabla} (
-    {",\n".join(valores)}
-    {foreignKey(self.columnas)}
-    {index(self.columnas, self.nombreTabla) if BaseConf.SQL_ACTIVE else ""});
-{index(self.columnas, self.nombreTabla) if BaseConf.POSTGRES_ACTIVE else ""}"""
+{",\n".join(parametrosTabla)}
+);
+{postgreIndexs}"""
     
     def getNombreColumnas(self):
         """

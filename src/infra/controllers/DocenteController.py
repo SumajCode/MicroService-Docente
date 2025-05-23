@@ -12,8 +12,8 @@ class DocenteController(Controller):
     def listar(self):
         return self.get( 
             opciones={
-                'tabla':self.nombreTabla,
-                'columnas':[],
+                'tabla': 'socio',#self.nombreTabla,
+                'columnas':['ci_socio', 'nombre_socio', 'apellidos_socio', 'fecha_afiliacion'],
                 'columnaOrden':None,
                 'asc':None,
                 'desc':None,
