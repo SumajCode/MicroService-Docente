@@ -1,5 +1,6 @@
 from ..infra.db.conn import Conexion
 from ..config.conf import BaseConf
+from ..infra.db.Table import Tabla
 
 class Ejecutar:
     def __init__(self):
@@ -21,10 +22,13 @@ class Ejecutar:
         return self.conn1.fetchall()
 
     def crearTabla(self):
-        def nuevaMigracion(query):
+        def nuevaMigracion(model: Tabla):
+            modelo = model()
             print("En espera de la creacion de la tabla...")
-            print(query())
-            # if self.ejecutarConsulta(query):
-            #     return "Creacion de tabla exitosa."
-            # return "Error al crear la tabla."
+            if modelo.nombreTabla not in [tabla[f'Tables_in_{BaseConf.SQL_DB}'] for tabla in self.ejecutarConsulta(f"SHOW FULL TABLES FROM {BaseConf.SQL_DB}")]:
+                self.ejecutarConsulta(modelo.consultaCrearTabla())
+                print("Creacion de tabla exitosa.")
+                return "Creacion de tabla exitosa."
+            print(f"La tabla {modelo.nombreTabla} ya existe.")
+            return f"La tabla {modelo.nombreTabla} ya existe."
         return nuevaMigracion

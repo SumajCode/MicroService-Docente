@@ -1,7 +1,8 @@
-from ..infra.db.Query import CrearDB
+from ..scripts.createDB import crearBaseDatos
 
 def crearDB():
     print("Primero se creara la db")
+    print(crearBaseDatos())
 crearDB()
 
 from .execute import Ejecutar
@@ -11,4 +12,5 @@ ejecutar = Ejecutar()
 
 @ejecutar.crearTabla()
 def crearTablaDocente():
-    return DocenteModel().consultaCrearTabla()
+    return DocenteModel()
+

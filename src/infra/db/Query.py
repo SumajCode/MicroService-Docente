@@ -19,7 +19,7 @@ def foreignKey(columnas: list[Columna]):
     resultado = []
     for column in columnas:
         if column.llaveForanea:
-            resultado.append(f"FOREIGN KEY ({column.nombreColumna}) REFERECES {column.referenciaTabla}(id)")
+            resultado.append(f"CONSTRAINT fk_{column.nombreColumna} FOREIGN KEY ({column.nombreColumna}) REFERENCES {column.referenciaTabla}(id) ON DELETE CASCADE ON UPDATE CASCADE")
     return resultado
 
 def index(columnas: list, nombreTabla: str):
@@ -37,7 +37,7 @@ def index(columnas: list, nombreTabla: str):
     for column in columnas:
         if column.indexado:
             if BaseConf.SQL_ACTIVE:
-                resultado.append(f"INDEX ({column.nombreColumna})")
+                resultado.append(f"INDEX index_{nombreTabla}_{column.nombreColumna} ({column.nombreColumna})")
             if BaseConf.POSTGRES_ACTIVE:
                 resultado.append(f"CREATE INDEX index_{nombreTabla}_{column.nombreColumna} ON ({column.nombreColumna})")
     return resultado
