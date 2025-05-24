@@ -1,10 +1,10 @@
-from db.Table import Tabla
-from db.Column import Columna
-from db.DataType import *
+from ..db.Table import Tabla
+from ..db.Column import Columna
+from ..db.DataType import *
 
 class EvaluacionModel(Tabla):
-    Tabla(
-        'evaluacion',
+    nombreTabla='evaluacion'
+    columnas=[
         Columna(
             nombreColumna='id', 
             tipoColumna=Integer(), 
@@ -23,13 +23,13 @@ class EvaluacionModel(Tabla):
             nombreColumna='id_materia',
             tipoColumna=Integer(),
             llaveForanea=True,
-            columnaTablaRelacion='materia', 
-            referennciaTablaID='id'),
+            columnaTablaRelacion='materia'),
         Columna(
             nombreColumna='id_estudiante',
             tipoColumna=Integer(),
             llaveForanea=True,
-            columnaTablaRelacion='estudiante', 
-            referennciaTablaID='id'),
-    )
+            columnaTablaRelacion='estudiante')]
+    
+    def __init__(self):
+        super().__init__(self.nombreTabla, self.columnas)
 

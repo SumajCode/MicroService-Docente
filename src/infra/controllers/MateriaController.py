@@ -1,11 +1,11 @@
 from .Controller import Controller
-from ..models.MatriculaModel import MatriculaModel
+from ..models.MateriaModel import MateriaModel
 
-class MatriculaController(Controller):
+class MateriaController(Controller):
 
     def __init__(self):
         super().__init__()
-        modelo = MatriculaModel()
+        modelo = MateriaModel()
         self.nombreTabla = modelo.nombreTabla
         self.columnas = modelo.getNombreColumnas()
     

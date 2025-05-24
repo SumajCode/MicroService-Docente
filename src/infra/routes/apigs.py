@@ -32,12 +32,12 @@ def crearDocente():
     return DocenteController().crear(request)
 
 @app.route('/crearEvaluacion', methods=['POST', 'GET'])
-def recolectarDatos():
-    return MatriculaController().crear(request)
+def crearEvaluacion():
+    return EvaluacionController().crear(request)
 
 @app.route('/crearMateria', methods=['POST', 'GET'])
-def crearDocente():
-    return DocenteController().crear(request)
+def crearMateria():
+    return MateriaController().crear(request)
 
 @app.route('/crearMatriculas', methods=['POST', 'GET'])
 def recolectarDatos():
@@ -48,20 +48,20 @@ def obtenerDocentes():
     return DocenteController().listar()
 
 @app.route('/obtenerMatriculados', methods=['GET'])
-def obtenerDocentes():
-    return DocenteController().listar()
+def obtenerMatriculados():
+    return MatriculaController().listar()
 
 @app.route('/obtenerMaterias', methods=['GET'])
-def obtenerDocentes():
-    return DocenteController().listar()
+def obtenerMaterias():
+    return MateriaController().listar()
 
 @app.route('/obtenerMateria', methods=['GET'])
-def obtenerDocentes():
-    return DocenteController().listar()
+def obtenerMateria():
+    return MateriaController().listar()
 
-@app.route('/obtenerMatriculados', methods=['GET'])
-def obtenerDocentes():
-    return DocenteController().listar()
+# @app.route('/obtenerMatriculados', methods=['GET'])
+# def obtenerDocentes():
+#     return DocenteController().listar()
 
 if __name__ == '__main__' :
     app.run()

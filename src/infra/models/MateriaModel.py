@@ -1,10 +1,11 @@
-from db.Table import Tabla
-from db.Column import Columna
-from db.DataType import *
+from ..db.Table import Tabla
+from ..db.Column import Columna
+from ..db.DataType import *
 
 
 class MateriaModel(Tabla):
-    Tabla('materia',
+    nombreTabla='materia',
+    columnas=[
         Columna(
             nombreColumna='id', 
             tipoColumna=Integer(), 
@@ -20,7 +21,9 @@ class MateriaModel(Tabla):
             nombreColumna='id_docente',
             tipoColumna=Integer(),
             llaveForanea=True,
-            columnaTablaRelacion='docente', 
-            referennciaTablaID='id'),
-    )
+            referenciaTabla='docente')
+    ]
+    
+    def __init__(self):
+        super().__init__(self.nombreTabla, self.columnas)
 
