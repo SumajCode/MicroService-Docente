@@ -2,7 +2,7 @@ import pymysql
 import pymysql.cursors
 import psycopg
 
-from ...config.conf import BaseConf
+from config.conf import BaseConf
 
 class Conexion:
     def conectarSQL():

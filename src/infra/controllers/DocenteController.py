@@ -1,5 +1,5 @@
-from .Controller import Controller
-from ..models.DocenteModel import DocenteModel
+from infra.controllers.Controller import Controller
+from infra.models.DocenteModel import DocenteModel
 
 class DocenteController(Controller):
 

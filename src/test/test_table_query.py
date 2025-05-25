@@ -1,8 +1,8 @@
-from orm.db.Table import Tabla
-from orm.db.Column import Columna
-from orm.db.DataType import *
+from infra.db.Table import Tabla
+from infra.db.Column import Columna
+from infra.db.DataType import *
 
-def queryTable():
+def test_query_table():
     tabla = Tabla(
         nombreTabla="test",
         columnas=[Columna("id", Integer(), llavePrimaria=True, autoIncremental=True),
@@ -11,4 +11,4 @@ def queryTable():
     )
     print(tabla.consultaCrearTabla())
 
-queryTable()
+test_query_table()

@@ -1,5 +1,5 @@
-from orm.db.Query import insertarEnTabla
-def queryInsert():
+from infra.db.Query import insertarEnTabla
+def test_query_insert():
     consulta = insertarEnTabla(
         nombreTabla="test",
         datos={
@@ -8,6 +8,4 @@ def queryInsert():
             "email": "test"
         }
     )
-    print(consulta)
-
-queryInsert()
+    assert isinstance(consulta, str)

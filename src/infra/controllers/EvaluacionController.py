@@ -1,5 +1,5 @@
-from .Controller import Controller
-from ..models.EvaluacionModel import EvaluacionModel
+from infra.controllers.Controller import Controller
+from infra.models.EvaluacionModel import EvaluacionModel
 
 class EvaluacionController(Controller):
 

@@ -1,5 +1,5 @@
-from .Controller import Controller
-from ...scripts.docs.ReadingDocs import ReadingDocs
+from infra.controllers.Controller import Controller
+from scripts.docs.ReadingDocs import ReadingDocs
 
 class MatriculaController(Controller):
 

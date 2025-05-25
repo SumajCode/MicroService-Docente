@@ -1,8 +1,18 @@
-from .conn import *
-from .Column import Columna
-from ...scripts.formater import Formater
+from infra.db.conn import *
+from infra.db.Column import Columna
 
 def formatoSQLInsertar(self, tabla: str, columnas: list, valores: list) -> list:
+    """
+    Generates a SQL INSERT INTO statement for a specified table with the given column names and values.
+
+    Args:
+        tabla (str): The name of the table to insert data into.
+        columnas (list): A list of column names.
+        valores (list): A list of values to be inserted into the table.
+
+    Returns:
+        str: The SQL INSERT INTO statement as a string.
+    """
     query = f"INSERT INTO {tabla} (" + ",".join(columnas) + ") VALUES "
     return query + ",".join(["(" + ",".join(value) + ")" for value in valores])
 

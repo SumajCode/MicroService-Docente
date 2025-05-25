@@ -40,7 +40,7 @@ const-rgx=([A-Z][A-Z0-9]*)|(__.*__)$
 
 [DESIGN]
 # Máximo número de argumentos por función
-max-args=
+# max-args=
 
 # Máximo número de atributos en una clase
 max-attributes=10

@@ -1,7 +1,18 @@
 import pymysql
-from ..config.conf import BaseConf
+from config.conf import BaseConf
 
 def crearBaseDatos():
+    """
+    Crea la base de datos especificada en la configuraci n.
+
+    Esta funci n intenta conectarse a la base de datos con la configuraci n
+    especificada y, si la base de datos no existe, la crea. Si la base de datos
+    ya existe, se devuelve un mensaje indicando que la base de datos ya existe.
+
+    Returns:
+        str: Un mensaje indicando si la base de datos fue creada o
+            si ya existe.
+    """
     config = {
         'host': BaseConf.SQL_HOST,
         'user': BaseConf.SQL_USER,

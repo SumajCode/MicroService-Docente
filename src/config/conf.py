@@ -6,6 +6,17 @@ load_dotenv()
 class BaseConf():
 
     def get_bool_env(var_name, default=False):
+        """
+        Retrieve a boolean environment variable.
+
+        Args:
+            var_name (str): The name of the environment variable.
+            default (bool): The default value to return if the environment variable is not set.
+
+        Returns:
+            bool: True if the environment variable is set to a truthy value ('true', '1', 't', 'yes', 'y'), otherwise False.
+        """
+
         val = os.getenv(var_name, str(default))
         return val.lower() in ('true', '1', 't', 'yes', 'y')
 

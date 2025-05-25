@@ -1,10 +1,10 @@
 from flask import jsonify
 
-from .errors.ErrorsClients import APIHTTPExceptionsClient
-from .errors.ErrorsServer import APIHTTPExceptionsServer
+from infra.controllers.errors.ErrorsClients import APIHTTPExceptionsClient
+from infra.controllers.errors.ErrorsServer import APIHTTPExceptionsServer
 
-from ...scripts.execute import Ejecutar
-from ..db.Query import *
+from scripts.execute import Ejecutar
+from infra.db.Query import *
 
 class Controller:
 
