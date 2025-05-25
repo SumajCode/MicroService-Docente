@@ -1,7 +1,8 @@
-import sqlite3
+import pymysql
+import pymysql.cursors
 import psycopg
 
-from api.src.config.conf import BaseConf
+from ...config.conf import BaseConf
 
 class Conexion:
     def conectarSQL():
@@ -21,7 +22,13 @@ class Conexion:
             A cursor object for executing SQL queries on the database.
         """
 
-        conn = sqlite3.connect(BaseConf.SQL_DB)
+        conn = pymysql.connect(
+            host=BaseConf.SQL_HOST, 
+            user=BaseConf.SQL_USER, 
+            passwd=BaseConf.SQL_PASSWORD, 
+            db=BaseConf.SQL_DB,
+            cursorclass=pymysql.cursors.DictCursor
+            )
         return conn.cursor()
 
     def conectarPostgres():

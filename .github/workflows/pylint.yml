@@ -20,5 +20,4 @@ jobs:
         pip install pylint
     - name: Analisis de codigo con Pylint
       run: |
-        pylint $(find api -type f -name "*.py") --rcfile=.pylintrc
-
+        pylint src --rcfile=.pylintrc
