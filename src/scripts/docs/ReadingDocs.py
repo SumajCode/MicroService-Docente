@@ -7,7 +7,7 @@ class ReadingDocs:
     def __init__(self):
         pass
 
-    def leerXLS(ruta: str):
+    def leerXLS(self, ruta: str):
         """
         Reads an Excel file and extracts the data from the first sheet.
 
@@ -21,12 +21,11 @@ class ReadingDocs:
             list[dict]: A list of dictionaries, each representing a row from the 
             Excel table with column names as keys.
         """
-        print(ruta)
         lector = openpyxl.load_workbook(ruta).active
         nombreColumnas = [lector.cell(row=1, column=i).value for i in range(1, lector.max_column + 1)]
         return Formater().formatoJSONDesdeXLS(nombreColumnas, lector)
 
-    def leerPDF(ruta: str):
+    def leerPDF(self, ruta: str):
         """
         Reads a PDF file and extracts the first page's table data.
 

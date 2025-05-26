@@ -12,18 +12,18 @@ class Ejecutar:
         """
 
         if BaseConf.POSTGRES_ACTIVE:
-            self.conn1 = Conexion.conectarPostgres()
-            self.conn2 = None
+            self.connPostSQL = Conexion.conectarPostgres()
+            self.connSQL = None
         if BaseConf.SQL_ACTIVE:
-            self.conn1 = Conexion.conectarSQL()
-            self.conn2 = None
+            self.connSQL = Conexion.conectarSQL()
+            self.connPostSQL = None
         # if BaseConf.POSTGRES_ACTIVE and BaseConf.SQL_ACTIVE:
-        #     self.conn1 = Conexion.conectarPostgres()
+        #     self.connPostSQL = Conexion.conectarPostgres()
         #     self.conn2 = Conexion.conectarSQL()
-    
+
     def ejecutarConsulta(self, consulta: str):
         # if BaseConf.POSTGRES_ACTIVE and BaseConf.SQL_ACTIVE:
-        #     self.conn1.execute(consulta)
+        #     self.connPostSQL.execute(consulta)
         #     self.conn2.execute(consulta)
         """
         Executes a SQL query on the database and returns the results.
@@ -37,8 +37,9 @@ class Ejecutar:
         Returns:
             list: A list of tuples containing the results of the query.
         """
-        self.conn1.execute(consulta)
-        return self.conn1.fetchall()
+        conn = self.connSQL if self.connPostSQL is None else self.connPostSQL
+        conn.execute(consulta)
+        return conn.fetchall()
 
     def crearTabla(self):
         def nuevaMigracion(model: Tabla):
@@ -60,7 +61,9 @@ class Ejecutar:
 
             modelo = model()
             print("En espera de la creacion de la tabla...")
-            if modelo.nombreTabla not in [tabla[f'Tables_in_{BaseConf.SQL_DB}'] for tabla in self.ejecutarConsulta(f"SHOW FULL TABLES FROM {BaseConf.SQL_DB}")]:
+            consulta = self.ejecutarConsulta(f"SHOW FULL TABLES FROM {BaseConf.SQL_DB}")
+            nombreColumna = f'Tables_in_{BaseConf.SQL_DB}'
+            if modelo.nombreTabla not in [tabla[nombreColumna] for tabla in consulta]:
                 self.ejecutarConsulta(modelo.consultaCrearTabla())
                 print("Creacion de tabla exitosa.")
                 return "Creacion de tabla exitosa."

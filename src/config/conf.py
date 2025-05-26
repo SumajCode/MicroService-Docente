@@ -3,21 +3,21 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-class BaseConf():
-
-    def get_bool_env(var_name, default=False):
+class BaseConf:
+    def getBoolEnv(varName, default=False):
         """
         Retrieve a boolean environment variable.
 
         Args:
-            var_name (str): The name of the environment variable.
+            varName (str): The name of the environment variable.
             default (bool): The default value to return if the environment variable is not set.
 
         Returns:
-            bool: True if the environment variable is set to a truthy value ('true', '1', 't', 'yes', 'y'), otherwise False.
+            bool: True if the environment variable is set to a 
+                  truthy value ('true', '1', 't', 'yes', 'y'), otherwise False.
         """
 
-        val = os.getenv(var_name, str(default))
+        val = os.getenv(varName, str(default))
         return val.lower() in ('true', '1', 't', 'yes', 'y')
 
     APP_NAME = os.getenv("APP_NAME")
@@ -25,22 +25,22 @@ class BaseConf():
     HOST = os.getenv("HOST")
     PORT_API = os.getenv("PORT_API")
     SECRET_KEY = os.getenv("SECRET_KEY")
-    DEBUG = get_bool_env("DEBUG")
-    TESTING = get_bool_env("TESTING")
+    DEBUG = getBoolEnv(varName="DEBUG")
+    TESTING = getBoolEnv(varName="TESTING")
 
     POSTGRES_USER = os.getenv("POSTGRES_USER")
     POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
     POSTGRES_HOST = os.getenv("POSTGRES_HOST")
     POSTGRES_PORT = os.getenv("POSTGRES_PORT")
     POSTGRES_DB = os.getenv("POSTGRES_DB")
-    POSTGRES_ACTIVE = get_bool_env("POSTGRES_ACTIVE")
+    POSTGRES_ACTIVE = getBoolEnv(varName="POSTGRES_ACTIVE")
 
     SQL_USER = os.getenv("SQL_USER")
     SQL_PASSWORD = os.getenv("SQL_PASSWORD")
     SQL_HOST = os.getenv("SQL_HOST")
     SQL_PORT = os.getenv("SQL_PORT")
     SQL_DB = os.getenv("SQL_DB")
-    SQL_ACTIVE = get_bool_env("SQL_ACTIVE")
+    SQL_ACTIVE = getBoolEnv(varName="SQL_ACTIVE")
 
     SMTP_HOST = os.getenv("SMTP_HOST")
     SMTP_PORT = os.getenv("SMTP_PORT")
@@ -64,4 +64,3 @@ class DevConf(BaseConf):
 class ProdConf(BaseConf):
     DEBUG = False
     TESTING = False
-    pass

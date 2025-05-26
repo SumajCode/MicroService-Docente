@@ -9,6 +9,12 @@ ignore-patterns=test_.*\.py
 # Extensiones habilitadas
 load-plugins=pylint.extensions.docparams
 
+[DEFAULT]
+disable=
+    C,
+    too-many-positional-arguments
+
+
 [MESSAGES CONTROL]
 # Desactiva algunos chequeos molestos o innecesarios
 disable=
@@ -17,6 +23,7 @@ disable=
     C0116,  # missing-function-docstring
     R0903,  # too-few-public-methods
     W0511,  # fixme (comentarios TODO, FIXME, etc.)
+    R0801,  # similar lines (en caso de usar sqlalchemy u otro)
 
 [REPORTS]
 # Desactiva el reporte final de puntuación
@@ -24,26 +31,27 @@ reports=no
 
 [FORMAT]
 # Tamaño máximo por línea
-max-line-length=100
+max-line-length=150
 
 # Estilo de sangría
 indent-string='    '
 
 [BASIC]
 # Convenciones de nombres (puedes adaptar según tu equipo)
+attr-rgx=[a-z][a-zA-Z]{2,30}$
 variable-rgx=[a-z][a-zA-Z]{2,30}$
 argument-rgx=[a-z][a-zA-Z]{2,30}$
-function-rgx=[a-z][a-zA-Z]{2,30}$
-method-rgx=[a-z][a-zA-Z]{2,30}$
+function-rgx=[a-zA-Z][a-zA-Z]{2,30}$
+method-rgx=[_a-z_][_a-zA-Z_]{2,30}$
 class-rgx=[A-Z][a-zA-Z]{2,30}$
 const-rgx=([A-Z][A-Z]*)|(__.*__)$
 
 [DESIGN]
 # Máximo número de argumentos por función
-# max-args=
+max-args=10
 
 # Máximo número de atributos en una clase
 max-attributes=10
 
 # Complejidad ciclomática (funciones más complejas que esto serán advertidas)
-max-complexity=10
+# max-complexity=10

@@ -1,6 +1,6 @@
 from ..db.Column import Columna
 from ..db.Table import Tabla
-from ..db.DataType import *
+from ..db.DataType import Integer
 
 class MatriculaModel(Tabla):
     nombreTabla='matricula'

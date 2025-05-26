@@ -8,10 +8,9 @@ class DocenteController(Controller):
         modelo = DocenteModel()
         self.nombreTabla = modelo.nombreTabla
         self.columnas = modelo.getNombreColumnas()
-    
+
     def listar(self):
-        return self.get( 
-            opciones={
+        return self.get(opciones={
                 'tabla': 'socio',#self.nombreTabla,
                 'columnas':['ci_socio', 'nombre_socio', 'apellidos_socio', 'fecha_afiliacion'],
                 'columnaOrden':None,
@@ -30,7 +29,6 @@ class DocenteController(Controller):
         return self.post({'tabla': self.nombreTabla, 'datos': datosImportantes})
 
     def modificar(self, request):
-
         pass
 
     def eliminar(self):

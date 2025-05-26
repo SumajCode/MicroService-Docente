@@ -1,7 +1,7 @@
 from infra.db.conn import *
 from infra.db.Column import Columna
 
-def formatoSQLInsertar(self, tabla: str, columnas: list, valores: list) -> list:
+def formatoSQLInsertar(tabla: str, columnas: list, valores: list) -> list:
     """
     Generates a SQL INSERT INTO statement for a specified table with the given column names and values.
 
@@ -29,7 +29,11 @@ def foreignKey(columnas: list[Columna]):
     resultado = []
     for column in columnas:
         if column.llaveForanea:
-            resultado.append(f"CONSTRAINT fk_{column.nombreColumna} FOREIGN KEY ({column.nombreColumna}) REFERENCES {column.referenciaTabla}(id) ON DELETE CASCADE ON UPDATE CASCADE")
+            consulta = f"CONSTRAINT fk_{column.nombreColumna}"
+            consulta += f" FOREIGN KEY ({column.nombreColumna})"
+            consulta += f" REFERENCES {column.referenciaTabla}(id)"
+            consulta += f" ON DELETE CASCADE ON UPDATE CASCADE"
+            resultado.append(consulta)
     return resultado
 
 def index(columnas: list, nombreTabla: str):
@@ -47,9 +51,14 @@ def index(columnas: list, nombreTabla: str):
     for column in columnas:
         if column.indexado:
             if BaseConf.SQL_ACTIVE:
-                resultado.append(f"INDEX index_{nombreTabla}_{column.nombreColumna} ({column.nombreColumna})")
+                consultaIndex = f"INDEX index_{nombreTabla}_{column.nombreColumna}"
+                consultaIndex += f" ({column.nombreColumna})"
+                resultado.append(consultaIndex)
             if BaseConf.POSTGRES_ACTIVE:
-                resultado.append(f"CREATE INDEX index_{nombreTabla}_{column.nombreColumna} ON ({column.nombreColumna})")
+                consultaIndex = f"CREATE INDEX"
+                consultaIndex += f" index_{nombreTabla}_{column.nombreColumna}"
+                consultaIndex += f" ON ({column.nombreColumna})"
+                resultado.append(consultaIndex)
     return resultado
     
 def insertarEnTabla(nombreTabla: str, datos: dict):
@@ -67,8 +76,8 @@ def insertarEnTabla(nombreTabla: str, datos: dict):
         columnas = datos.keys()
         valores = ["\""+str(value)+"\"" if isinstance(value,str) else str(int(value)) for value in datos.values()]
         return formatoSQLInsertar(nombreTabla, columnas, [valores])
-    except Exception as e:
-        return f"Error encontrado: {e}"
+    except Exception as excep:
+        return f"Error encontrado: {excep}"
 
 def seleccionar(nombreTabla: str, columnas: list = None):
     """
@@ -92,8 +101,8 @@ def seleccionar(nombreTabla: str, columnas: list = None):
                 return f"SELECT * FROM {nombreTabla}"
             return f"SELECT {', '.join(columnas)} FROM {nombreTabla}"
         return ""
-    except Exception as e:
-        return f"Error encontrado: {e}"
+    except Exception as excep:
+        return f"Error encontrado: {excep}"
 
 def seleccionGroupBy(nombreTabla: str, columnas: list, columnaAgrupar: str):
     """
@@ -110,13 +119,19 @@ def seleccionGroupBy(nombreTabla: str, columnas: list, columnaAgrupar: str):
         str: Consulta SQL para seleccionar y agrupar los registros.
     """
     try:
-        if columnaAgrupar != None:
+        if columnaAgrupar is not None:
             return f"{seleccionar(nombreTabla, columnas)}\nGROUP BY({columnaAgrupar})"
         return seleccionar(nombreTabla, columnas)
-    except Exception as e:
-        return f"Error encontrado: {e}"
+    except Exception as excep:
+        return f"Error encontrado: {excep}"
 
-def ordenarPor(nombreTabla: str, columnas: list, columnaOrden: str, ascen=False, descen=False, columnaAgrupar: str=None):
+def ordenarPor(
+        nombreTabla: str,
+        columnas: list,
+        columnaOrden: str,
+        ascen=False,
+        descen=False,
+        columnaAgrupar: str=None):
     """
     Genera una consulta SQL para ordenar registros en una tabla por una columna en particular.
     
@@ -133,25 +148,25 @@ def ordenarPor(nombreTabla: str, columnas: list, columnaOrden: str, ascen=False,
     """
     consulta = seleccionar(nombreTabla, columnas)
     try:
-        if columnaAgrupar != None:
+        if columnaAgrupar is not None:
             consulta = seleccionGroupBy(nombreTabla, columnas, columnaAgrupar)
         if descen:
             return f"{consulta}\nORDER BY({columnaOrden}) ASC"
         if ascen:
             return f"{consulta}\nORDER BY({columnaOrden}) DESC"
         return consulta
-    except Exception as e:
-        return f"Error encontrado: {e}"
+    except Exception as excep:
+        return f"Error encontrado: {excep}"
 
 def paginacion(numPag: int):
     pass
 
-def actualizar(id, nombreTabla: str, datos: dict):
+def actualizar(idModel, nombreTabla: str, datos: dict):
     """
     Genera una consulta SQL para actualizar un registro en una tabla.
     
     Args:
-        id (int): Id del registro a actualizar.
+        idModel (int): Id del registro a actualizar.
         nombreTabla (str): Nombre de la tabla en la que se encuentra el registro.
         datos (dict): Diccionario con los datos a actualizar en el registro.
     
@@ -159,13 +174,14 @@ def actualizar(id, nombreTabla: str, datos: dict):
         str: Consulta SQL para actualizar el registro.
     """
     try:
-        if id != None or nombreTabla != None or datos != None:
+        if idModel is not None or nombreTabla is not None or datos is not None:
             consulta = f"UPDATE {nombreTabla}\n"
             for columna, valor in datos.items():
                 consulta += f"SET {columna} = {"\""+str(valor)+"\"" if isinstance(valor,str) else str(int(valor))},\n"
+                consulta += f" WHERE id = {idModel}"
             return consulta
-    except Exception as e:
-        return f"Error encontrado: {e}"
+    except Exception as excep:
+        return f"Error encontrado: {excep}"
     pass
 
 def eliminar(id):

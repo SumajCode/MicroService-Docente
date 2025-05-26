@@ -8,10 +8,9 @@ class MateriaController(Controller):
         modelo = MateriaModel()
         self.nombreTabla = modelo.nombreTabla
         self.columnas = modelo.getNombreColumnas()
-    
+
     def listar(self):
-        return self.get( 
-            opciones={
+        return self.get(opciones={
                 'tabla':self.nombreTabla,
                 'columnas':[],
                 'columnaOrden':None,
@@ -30,7 +29,6 @@ class MateriaController(Controller):
         return self.post({'tabla': self.nombreTabla, 'datos': datosImportantes})
 
     def modificar(self, request):
-
         pass
 
     def eliminar(self):

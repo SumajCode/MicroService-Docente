@@ -17,9 +17,9 @@ def crearApp():
     app.config.from_object('config.conf.BaseConf')
     return app
 
-app = crearApp()
+APP = crearApp()
 
-@app.route('/')
+@APP.route('/')
 def home():
     """
     Root route of the API
@@ -29,46 +29,46 @@ def home():
     :return: JSON response with the status of the API
     """
     return jsonify({
-        'data': f"{app.config['APP_NAME']+ '-' + app.config['APP_VERSION']} is running", 
+        'data': f"{APP.config['APP_NAME']+ '-' + APP.config['APP_VERSION']} is running", 
         'message' : 'OK', 
         'status' : 200
     })
 
-@app.route('/crearDocente', methods=['POST', 'GET'])
+@APP.route('/crearDocente', methods=['POST', 'GET'])
 def crearDocente():
     return DocenteController().crear(request)
 
-@app.route('/crearEvaluacion', methods=['POST', 'GET'])
+@APP.route('/crearEvaluacion', methods=['POST', 'GET'])
 def crearEvaluacion():
     return EvaluacionController().crear(request)
 
-@app.route('/crearMateria', methods=['POST', 'GET'])
+@APP.route('/crearMateria', methods=['POST', 'GET'])
 def crearMateria():
     return MateriaController().crear(request)
 
-@app.route('/crearMatriculas', methods=['POST', 'GET'])
+@APP.route('/crearMatriculas', methods=['POST', 'GET'])
 def recolectarDatos():
     return MatriculaController().crear(request)
 
-@app.route('/obtenerDocentes', methods=['GET'])
+@APP.route('/obtenerDocentes', methods=['GET'])
 def obtenerDocentes():
     return DocenteController().listar()
 
-@app.route('/obtenerMatriculados', methods=['GET'])
+@APP.route('/obtenerMatriculados', methods=['GET'])
 def obtenerMatriculados():
-    return MatriculaController().listar()
+    return MatriculaController().listar(request)
 
-@app.route('/obtenerMaterias', methods=['GET'])
+@APP.route('/obtenerMaterias', methods=['GET'])
 def obtenerMaterias():
     return MateriaController().listar()
 
-@app.route('/obtenerMateria', methods=['GET'])
+@APP.route('/obtenerMateria', methods=['GET'])
 def obtenerMateria():
     return MateriaController().listar()
 
-# @app.route('/obtenerMatriculados', methods=['GET'])
+# @APP.route('/obtenerMatriculados', methods=['GET'])
 # def obtenerDocentes():
 #     return DocenteController().listar()
 
 if __name__ == '__main__' :
-    app.run()
+    APP.run()

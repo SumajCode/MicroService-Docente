@@ -33,6 +33,5 @@ def crearBaseDatos():
         connection.commit()
         connection.close()
         return "La base de datos ya existe."
-    except Exception as e:
-        return f"Error sql: {e}"
-
+    except Exception as excep:
+        return f"Error sql: {excep}"

@@ -1,18 +1,17 @@
 from ..db.Table import Tabla
 from ..db.Column import Columna
-from ..db.DataType import *
-
+from ..db.DataType import Integer, String
 
 class MateriaModel(Tabla):
     nombreTabla='materia',
     columnas=[
         Columna(
-            nombreColumna='id', 
-            tipoColumna=Integer(), 
-            llavePrimaria=True, 
+            nombreColumna='id',
+            tipoColumna=Integer(),
+            llavePrimaria=True,
             autoIncremental=True),
         Columna(
-            nombreColumna='nombre_materia', 
+            nombreColumna='nombre_materia',
             tipoColumna=String()),
         Columna(
             nombreColumna='nivel_estudio',
@@ -26,4 +25,3 @@ class MateriaModel(Tabla):
     
     def __init__(self):
         super().__init__(self.nombreTabla, self.columnas)
-

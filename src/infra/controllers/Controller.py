@@ -4,7 +4,7 @@ from infra.controllers.errors.ErrorsClients import APIHTTPExceptionsClient
 from infra.controllers.errors.ErrorsServer import APIHTTPExceptionsServer
 
 from scripts.execute import Ejecutar
-from infra.db.Query import *
+from infra.db.Query import ordenarPor, insertarEnTabla
 
 class Controller:
 
@@ -44,11 +44,10 @@ class Controller:
                 'message' : 'OK',
                 'status' : 200
             })
-            
-        except APIHTTPExceptionsClient and APIHTTPExceptionsServer as e:
+        except (APIHTTPExceptionsClient and APIHTTPExceptionsServer) as excep:
             return jsonify({
-                'message' : e.description,
-                'status' : e.code
+                'message' : excep.description,
+                'status' : excep.code
             })
 
     def post(self, data):
@@ -59,10 +58,10 @@ class Controller:
                 'message' : 'OK',
                 'status' : 200
             })
-        except APIHTTPExceptionsClient and APIHTTPExceptionsServer as e:
+        except APIHTTPExceptionsClient and APIHTTPExceptionsServer as excep:
             return jsonify({
-                'message' : e.description,
-                'status' : e.code
+                'message' : excep.description,
+                'status' : excep.code
             })
 
     def patch(self):

@@ -5,7 +5,7 @@ import psycopg
 from config.conf import BaseConf
 
 class Conexion:
-    def conectarSQL():
+    def conectarSQL(self):
         """
         Connect to a SQLite database and return a cursor object.
 
@@ -23,15 +23,14 @@ class Conexion:
         """
 
         conn = pymysql.connect(
-            host=BaseConf.SQL_HOST, 
-            user=BaseConf.SQL_USER, 
-            passwd=BaseConf.SQL_PASSWORD, 
+            host=BaseConf.SQL_HOST,
+            user=BaseConf.SQL_USER,
+            passwd=BaseConf.SQL_PASSWORD,
             db=BaseConf.SQL_DB,
-            cursorclass=pymysql.cursors.DictCursor
-            )
+            cursorclass=pymysql.cursors.DictCursor)
         return conn.cursor()
 
-    def conectarPostgres():
+    def conectarPostgres(self):
         """Connect to a PostgreSQL database
         
         Parameters
@@ -43,6 +42,9 @@ class Conexion:
         psycopg2.extensions.cursor
             A cursor for the database connection
         """
-        with psycopg.connect(f"dbname={BaseConf.POSTGRES_DB} username={BaseConf.POSTGRES_USER} password={BaseConf.POSTGRES_PASSWORD}") as conn:
+        connextion = f"dbname={BaseConf.POSTGRES_DB}"
+        connextion += f" username={BaseConf.POSTGRES_USER}"
+        connextion += f" password={BaseConf.POSTGRES_PASSWORD}"
+        with psycopg.connect(connextion) as conn:
             with conn.cursor() as cur:
                 return cur

@@ -7,8 +7,7 @@ def String(length=1):
     """
     if length > 1:
         return f" VARCHAR({str(length)})"
-    else:
-        return " TEXT"
+    return " TEXT"
 
 def Json():
     """
@@ -26,38 +25,38 @@ def TinyText():
     """
     return " TINYTEXT"
 
-def Enum(list_values: list):
+def Enum(listValues: list):
     """
     Creates an ENUM data type with a list of values.
 
-    :param list_values: A list of values for the ENUM data type.
+    :param listValues: A list of values for the ENUM data type.
     :return: An ENUM data type as a string.
 
     Note: The ENUM data type is only created if the length of the provided list
     is greater than 2.
     """
-    if len(list_values) > 2:
-        values = []
-        for i in list_values:
-            values.append(f"'{i}'" if i.isdigit() == False else i)
-        return f" ENUM({','.join(values)})"
-    
-def Set(list_values: list):
+    values = []
+    for i in listValues:
+        values.append(f"'{i}'" if i.isdigit() else i)
+    return f" ENUM({','.join(values)})"
+
+
+def Set(listValues: list):
     """
     Creates a SET data type with a list of values.
 
-    :param list_values: A list of values for the SET data type.
+    :param listValues: A list of values for the SET data type.
     :return: A SET data type as a string.
 
     Note: The SET data type is only created if the length of the provided list
     is greater than 2.
     """
-    if len(list_values) > 2:
+    if len(listValues) > 2:
         values = []
-        for i in list_values:
-            values.append(f"'{i}'" if i.isdigit() == False else i)
+        for i in listValues:
+            values.append(f"'{i}'" if i.isdigit() else i)
         return f" SET({','.join(values)})"
-    
+
 def Integer():
     """
     Creates an INTEGER data type.
@@ -66,16 +65,16 @@ def Integer():
     """
     return " BIGINT"
 
-def Decimal(size, d):
+def Decimal(size, numDigits):
     """
     Creates a DECIMAL data type with specified precision and scale.
 
     :param size: The total number of digits (precision).
-    :param d: The number of digits to the right of the decimal point (scale).
+    :param numDigits: The number of digits to the right of the decimal point (scale).
     :return: A DECIMAL data type as a string.
     """
 
-    return f" DECIMAL({size}, {d})"
+    return f" DECIMAL({size}, {numDigits})"
 
 def Date():
     """
