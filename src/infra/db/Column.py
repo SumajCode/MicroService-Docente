@@ -6,7 +6,6 @@ class Columna:
             llavePrimaria = False,
             autoIncremental= False,
             llaveForanea = False,
-            columnaTablaRelacion = "",
             referenciaTabla = "",
             indexado=False):
         self.nombreColumna = nombreColumna
@@ -14,7 +13,6 @@ class Columna:
         self.llavePrimaria = llavePrimaria
         self.autoIncremental = autoIncremental
         self.llaveForanea = llaveForanea
-        self.columnaTablaRelacion = columnaTablaRelacion
         self.referenciaTabla = referenciaTabla
         self.indexado = indexado
 
@@ -47,15 +45,6 @@ class Columna:
             bool: Whether the column is a foreign key or not.
         """
         return self.llaveForanea
-
-    def getColumnaTablaRelacion(self):
-        """
-        Retrieves the name of the column in the referenced table of the foreign key, if applicable.
-
-        Returns:
-            str: The name of the column in the referenced table of the foreign key, if applicable.
-        """
-        return self.columnaTablaRelacion
 
     def getReferenciaTabla(self):
         """

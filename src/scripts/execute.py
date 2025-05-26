@@ -10,12 +10,12 @@ class Ejecutar:
         If SQL_ACTIVE is True, it connects to the SQL Server database.
         If both are True, it connects to both databases.
         """
-
+        connexion = Conexion()
         if BaseConf.POSTGRES_ACTIVE:
-            self.connPostSQL = Conexion.conectarPostgres()
+            self.connPostSQL = connexion.conectarPostgres()
             self.connSQL = None
         if BaseConf.SQL_ACTIVE:
-            self.connSQL = Conexion.conectarSQL()
+            self.connSQL = connexion.conectarSQL()
             self.connPostSQL = None
         # if BaseConf.POSTGRES_ACTIVE and BaseConf.SQL_ACTIVE:
         #     self.connPostSQL = Conexion.conectarPostgres()
@@ -65,8 +65,8 @@ class Ejecutar:
             nombreColumna = f'Tables_in_{BaseConf.SQL_DB}'
             if modelo.nombreTabla not in [tabla[nombreColumna] for tabla in consulta]:
                 self.ejecutarConsulta(modelo.consultaCrearTabla())
-                print("Creacion de tabla exitosa.")
-                return "Creacion de tabla exitosa."
+                print(f"Creacion de tabla {modelo.nombreTabla} exitosa.")
+                return f"Creacion de tabla exitosa."
             print(f"La tabla {modelo.nombreTabla} ya existe.")
-            return f"La tabla {modelo.nombreTabla} ya existe."
+            return f"La tabla ya existe."
         return nuevaMigracion

@@ -1,6 +1,6 @@
-from ..db.Column import Columna
-from ..db.Table import Tabla
-from ..db.DataType import Integer
+from infra.db.Column import Columna
+from infra.db.Table import Tabla
+from infra.db.DataType import Integer
 
 class MatriculaModel(Tabla):
     nombreTabla='matricula'
@@ -14,12 +14,10 @@ class MatriculaModel(Tabla):
             nombreColumna='id_materia',
             tipoColumna=Integer(),
             llaveForanea=True,
-            columnaTablaRelacion='materia'),
+            referenciaTabla='materia'),
         Columna(
             nombreColumna='id_estudiante',
-            tipoColumna=Integer(),
-            llaveForanea=True,
-            columnaTablaRelacion='estudiante')
+            tipoColumna=Integer())
     ]
 
     def __init__(self):

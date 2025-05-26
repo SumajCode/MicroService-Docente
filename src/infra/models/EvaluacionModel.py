@@ -1,6 +1,6 @@
-from ..db.Table import Tabla
-from ..db.Column import Columna
-from ..db.DataType import *
+from infra.db.Table import Tabla
+from infra.db.Column import Columna
+from infra.db.DataType import *
 
 class EvaluacionModel(Tabla):
     nombreTabla='evaluacion'
@@ -20,15 +20,13 @@ class EvaluacionModel(Tabla):
             nombreColumna='tipo_evaluacion',
             tipoColumna=String()),
         Columna(
-            nombreColumna='id_materia',
+            nombreColumna='id_materia_eval',
             tipoColumna=Integer(),
             llaveForanea=True,
-            columnaTablaRelacion='materia'),
+            referenciaTabla='materia'),
         Columna(
             nombreColumna='id_estudiante',
-            tipoColumna=Integer(),
-            llaveForanea=True,
-            columnaTablaRelacion='estudiante')]
+            tipoColumna=Integer())]
     
     def __init__(self):
         super().__init__(self.nombreTabla, self.columnas)

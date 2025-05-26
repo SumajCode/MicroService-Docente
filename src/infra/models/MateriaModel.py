@@ -1,9 +1,9 @@
-from ..db.Table import Tabla
-from ..db.Column import Columna
-from ..db.DataType import Integer, String
+from infra.db.Table import Tabla
+from infra.db.Column import Columna
+from infra.db.DataType import Integer, String
 
 class MateriaModel(Tabla):
-    nombreTabla='materia',
+    nombreTabla='materia'
     columnas=[
         Columna(
             nombreColumna='id',
