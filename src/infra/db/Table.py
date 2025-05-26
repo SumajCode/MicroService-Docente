@@ -16,7 +16,7 @@ class Tabla:
         Returns:
             str: The SQL CREATE TABLE statement.
         """
-
+        breakLine = ",\n"
         parametrosTabla = []
         for i in self.columnas:
             parametrosTabla.append(i.columnaSQL())
@@ -29,11 +29,11 @@ class Tabla:
             if BaseConf.POSTGRES_ACTIVE is False:
                 parametrosTabla.extend(indexs)
             else:
-                ";\n".join(indexs)
+                breakLine.join(indexs)
         
         return f"""
 CREATE TABLE {self.nombreTabla} (
-{",\n".join(parametrosTabla)}
+{breakLine.join(parametrosTabla)}
 );
 {postgreIndexs}"""
     
