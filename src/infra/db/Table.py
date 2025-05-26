@@ -1,4 +1,4 @@
-from infra.db.Query import *
+from src.infra.db.Query import *
 
 class Tabla:
     def __init__(self, nombreTabla: str, columnas: list):
