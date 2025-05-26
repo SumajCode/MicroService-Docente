@@ -1,5 +1,5 @@
-from infra.db.conn import *
-from infra.db.Column import Columna
+from src.infra.db.conn import *
+from src.infra.db.Column import Columna
 
 breakLine = "\n"
 scapeValue = "\""
