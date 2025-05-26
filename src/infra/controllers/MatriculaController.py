@@ -1,6 +1,6 @@
-from infra.controllers.Controller import Controller
+from src.infra.controllers.Controller import Controller
 from src.scripts.docs.ReadingDocs import ReadingDocs
-from infra.models.MatriculaModel import MatriculaModel
+from src.infra.models.MatriculaModel import MatriculaModel
 
 class MatriculaController(Controller):
 
