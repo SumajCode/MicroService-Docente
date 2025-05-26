@@ -77,7 +77,7 @@ from flask import Flask
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('api.conf.BaseConf')
+    app.src.config.from_object('api.conf.BaseConf')
     return app
 
 app = create_app()
@@ -176,7 +176,7 @@ config_class = {
     'production': 'api.conf.ProdConfig'
 }.get(os.environ.get('FLASK_ENV', 'development'))
 
-app.config.from_object(config_class)
+app.src.config.from_object(config_class)
 ```
 
 ## Extensiones Útiles para Flask

@@ -1,4 +1,4 @@
-from scripts.createDB import crearBaseDatos
+from src.scripts.createDB import crearBaseDatos
 
 def crearDB():
     """
@@ -17,11 +17,11 @@ def crearDB():
     print(crearBaseDatos())
 crearDB()
 
-from scripts.execute import Ejecutar
-from infra.models.DocenteModel import DocenteModel
-from infra.models.MateriaModel import MateriaModel
-from infra.models.MatriculaModel import MatriculaModel
-from infra.models.EvaluacionModel import EvaluacionModel
+from src.scripts.execute import Ejecutar
+from src.infra.models.DocenteModel import DocenteModel
+from src.infra.models.MateriaModel import MateriaModel
+from src.infra.models.MatriculaModel import MatriculaModel
+from src.infra.models.EvaluacionModel import EvaluacionModel
 
 ejecutar = Ejecutar()
 

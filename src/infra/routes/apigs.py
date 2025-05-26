@@ -3,10 +3,10 @@ from flask import jsonify
 from flask import request
 from flask_cors import CORS
 
-from infra.controllers.DocenteController import DocenteController
-from infra.controllers.MateriaController import MateriaController
-from infra.controllers.EvaluacionController import EvaluacionController
-from infra.controllers.MatriculaController import MatriculaController
+from src.infra.controllers.DocenteController import DocenteController
+from src.infra.controllers.MateriaController import MateriaController
+from src.infra.controllers.EvaluacionController import EvaluacionController
+from src.infra.controllers.MatriculaController import MatriculaController
 
 # * Se usaran middlewares para mejorar la seguridad de las rutas y para separar
 # * por clase o modulo como matricula y docente al igual que para post/puts/patch de gets
@@ -14,7 +14,7 @@ from infra.controllers.MatriculaController import MatriculaController
 def crearApp():
     app = Flask(__name__)
     CORS(app)
-    app.config.from_object('config.conf.BaseConf')
+    app.src.config.from_object('src.config.conf.BaseConf')
     return app
 
 APP = crearApp()

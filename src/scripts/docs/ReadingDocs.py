@@ -1,7 +1,7 @@
 import openpyxl
 import pdfplumber
 
-from scripts.formater import Formater
+from src.scripts.formater import Formater
 
 class ReadingDocs:
     def __init__(self):

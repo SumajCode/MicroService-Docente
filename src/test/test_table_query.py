@@ -1,10 +1,10 @@
-from infra.db.Table import Tabla
-from infra.db.Column import Columna
-from infra.db.DataType import *
-from infra.models.MateriaModel import MateriaModel
-from infra.models.EvaluacionModel import EvaluacionModel
-from infra.models.MatriculaModel import MatriculaModel
-from infra.models.DocenteModel import DocenteModel
+from src.infra.db.Table import Tabla
+from src.infra.db.Column import Columna
+from src.infra.db.DataType import *
+from src.infra.models.MateriaModel import MateriaModel
+from src.infra.models.EvaluacionModel import EvaluacionModel
+from src.infra.models.MatriculaModel import MatriculaModel
+from src.infra.models.DocenteModel import DocenteModel
 
 def test_query_table():
     tabla = Tabla(

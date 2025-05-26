@@ -3,7 +3,7 @@ from flask import jsonify
 from infra.controllers.errors.ErrorsClients import APIHTTPExceptionsClient
 from infra.controllers.errors.ErrorsServer import APIHTTPExceptionsServer
 
-from scripts.execute import Ejecutar
+from src.scripts.execute import Ejecutar
 from infra.db.Query import ordenarPor, insertarEnTabla
 
 class Controller:

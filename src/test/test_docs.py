@@ -1,4 +1,4 @@
-from scripts.docs.ReadingDocs import ReadingDocs
+from src.scripts.docs.ReadingDocs import ReadingDocs
 
 def test_xls():
     print("=====================XLSX=====================")

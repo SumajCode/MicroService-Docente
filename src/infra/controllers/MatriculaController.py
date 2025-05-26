@@ -1,5 +1,5 @@
 from infra.controllers.Controller import Controller
-from scripts.docs.ReadingDocs import ReadingDocs
+from src.scripts.docs.ReadingDocs import ReadingDocs
 from infra.models.MatriculaModel import MatriculaModel
 
 class MatriculaController(Controller):

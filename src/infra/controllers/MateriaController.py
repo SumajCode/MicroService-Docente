@@ -1,5 +1,5 @@
-from infra.controllers.Controller import Controller
-from infra.models.MateriaModel import MateriaModel
+from src.infra.controllers.Controller import Controller
+from src.infra.models.MateriaModel import MateriaModel
 
 class MateriaController(Controller):
 

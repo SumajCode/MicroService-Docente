@@ -1,5 +1,5 @@
 import pymysql
-from config.conf import BaseConf
+from src.config.conf import BaseConf
 
 def crearBaseDatos():
     """

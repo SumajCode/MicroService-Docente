@@ -1,6 +1,6 @@
-from infra.db.conn import Conexion
-from config.conf import BaseConf
-from infra.db.Table import Tabla
+from src.infra.db.conn import Conexion
+from src.config.conf import BaseConf
+from src.infra.db.Table import Tabla
 
 class Ejecutar:
     def __init__(self):

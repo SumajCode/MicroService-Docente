@@ -1,5 +1,5 @@
-from infra.controllers.Controller import Controller
-from infra.models.DocenteModel import DocenteModel
+from src.infra.controllers.Controller import Controller
+from src.infra.models.DocenteModel import DocenteModel
 
 class DocenteController(Controller):
 
@@ -11,8 +11,8 @@ class DocenteController(Controller):
 
     def listar(self):
         return self.get(opciones={
-                'tabla': 'socio',#self.nombreTabla,
-                'columnas':['ci_socio', 'nombre_socio', 'apellidos_socio', 'fecha_afiliacion'],
+                'tabla': 'docente',#self.nombreTabla,
+                'columnas':['id', 'id_persona'],
                 'columnaOrden':None,
                 'asc':None,
                 'desc':None,

@@ -1,6 +1,6 @@
-from infra.db.Column import Columna
-from infra.db.Table import Tabla
-from infra.db.DataType import Integer
+from src.infra.db.Column import Columna
+from src.infra.db.Table import Tabla
+from src.infra.db.DataType import Integer
 
 class MatriculaModel(Tabla):
     nombreTabla='matricula'
