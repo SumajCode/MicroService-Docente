@@ -1,10 +1,10 @@
 from flask import jsonify
 
-from infra.controllers.errors.ErrorsClients import APIHTTPExceptionsClient
-from infra.controllers.errors.ErrorsServer import APIHTTPExceptionsServer
+from src.infra.controllers.errors.ErrorsClients import APIHTTPExceptionsClient
+from src.infra.controllers.errors.ErrorsServer import APIHTTPExceptionsServer
 
 from src.scripts.execute import Ejecutar
-from infra.db.Query import ordenarPor, insertarEnTabla
+from src.infra.db.Query import ordenarPor, insertarEnTabla
 
 class Controller:
 
