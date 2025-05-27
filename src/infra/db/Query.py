@@ -100,7 +100,7 @@ def seleccionar(nombreTabla: str, columnas: list = None):
 
     try:
         if nombreTabla:
-            if columnas is None:
+            if columnas is None or len(columnas) == 0:
                 return f"SELECT * FROM {nombreTabla}"
             return f"SELECT {', '.join(columnas)} FROM {nombreTabla}"
         return ""
