@@ -15,60 +15,60 @@ def crearApp():
     app = Flask(__name__)
     CORS(app)
     app.src.config.from_object('src.config.conf.BaseConf')
+
+    @application.route('/')
+    def home():
+        """
+        Root route of the API
+
+        Returns a JSON response with the status of the API
+
+        :return: JSON response with the status of the API
+        """
+        return jsonify({
+            'dta': f"{application.config['APP_NAME']+ '-' + application.config['APP_VERSION']} is running", 
+            'message' : 'OK', 
+            'status' : 200
+        })
+
+    @application.route('/crearDocente', methods=['POST', 'GET'])
+    def crearDocente():
+        return DocenteController().crear(request)
+
+    @application.route('/crearEvaluacion', methods=['POST', 'GET'])
+    def crearEvaluacion():
+        return EvaluacionController().crear(request)
+
+    @application.route('/crearMateria', methods=['POST', 'GET'])
+    def crearMateria():
+        return MateriaController().crear(request)
+
+    @application.route('/crearMatriculas', methods=['POST', 'GET'])
+    def recolectarDatos():
+        return MatriculaController().crear(request)
+
+    @application.route('/obtenerDocentes', methods=['GET'])
+    def obtenerDocentes():
+        return DocenteController().listar()
+
+    @application.route('/obtenerMatriculados', methods=['GET'])
+    def obtenerMatriculados():
+        return MatriculaController().listar(request)
+
+    @application.route('/obtenerMaterias', methods=['GET'])
+    def obtenerMaterias():
+        return MateriaController().listar()
+
+    @application.route('/obtenerMateria', methods=['GET'])
+    def obtenerMateria():
+        return MateriaController().listar()
+
+    # appplication.route('/obtenerMatriculados', methods=['GET'])
+    # def obtenerDocentes():
+    #     return DocenteController().listar()
     return app
 
 application = crearApp()
-
-@application.route('/')
-def home():
-    """
-    Root route of the API
-
-    Returns a JSON response with the status of the API
-
-    :return: JSON response with the status of the API
-    """
-    return jsonify({
-        'dta': f"{appplication.config['APP_NAME']+ '-' + appplication.config['APP_VERSION']} is running", 
-        'message' : 'OK', 
-        'status' : 200
-    })
-
-@application.route('/crearDocente', methods=['POST', 'GET'])
-def crearDocente():
-    return DocenteController().crear(request)
-
-@application.route('/crearEvaluacion', methods=['POST', 'GET'])
-def crearEvaluacion():
-    return EvaluacionController().crear(request)
-
-@application.route('/crearMateria', methods=['POST', 'GET'])
-def crearMateria():
-    return MateriaController().crear(request)
-
-@application.route('/crearMatriculas', methods=['POST', 'GET'])
-def recolectarDatos():
-    return MatriculaController().crear(request)
-
-@application.route('/obtenerDocentes', methods=['GET'])
-def obtenerDocentes():
-    return DocenteController().listar()
-
-@application.route('/obtenerMatriculados', methods=['GET'])
-def obtenerMatriculados():
-    return MatriculaController().listar(request)
-
-@application.route('/obtenerMaterias', methods=['GET'])
-def obtenerMaterias():
-    return MateriaController().listar()
-
-@application.route('/obtenerMateria', methods=['GET'])
-def obtenerMateria():
-    return MateriaController().listar()
-
-# appplication.route('/obtenerMatriculados', methods=['GET'])
-# def obtenerDocentes():
-#     return DocenteController().listar()
 
 if __name__ == '__main__' :
     application.run()
