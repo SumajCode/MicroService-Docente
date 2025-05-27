@@ -12,7 +12,7 @@ class DocenteController(Controller):
     def listar(self):
         return self.get(opciones={
                 'tabla': 'docente',#self.nombreTabla,
-                'columnas':['id', 'id_persona'],
+                'columnas':['id', 'nombre'],
                 'columnaOrden':None,
                 'asc':None,
                 'desc':None,

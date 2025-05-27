@@ -14,7 +14,7 @@ from src.infra.controllers.MatriculaController import MatriculaController
 def crearApp():
     app = Flask(__name__)
     CORS(app)
-    app.src.config.from_object('src.config.conf.BaseConf')
+    app.config.from_object('src.config.conf.BaseConf')
 
     @app.route('/')
     def home():
