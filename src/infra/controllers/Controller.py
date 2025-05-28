@@ -32,9 +32,14 @@ class Controller:
                         for nombreColumna in columnas:
                             datosEstructurados[nombreColumna] = fila[nombreColumna]
                         datos.append(datosEstructurados)
-                print("Jsonify datos de tabla")
+                    print("Jsonify datos de tabla")
+                    return jsonify({
+                        'data': datos,
+                        'message' : 'OK',
+                        'status' : 200
+                    })
                 return jsonify({
-                    'data': datos,
+                    'data': temporalDatos,
                     'message' : 'OK',
                     'status' : 200
                 })
