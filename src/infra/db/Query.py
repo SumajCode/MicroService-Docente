@@ -4,7 +4,7 @@ from src.infra.db.Column import Columna
 breakLine = "\n"
 scapeValue = "\""
 
-def formatoSQLInsertar(tabla: str, columnas: list, valores: list) -> list:
+def formatoSQLInsertar(tabla: str, columnas: list, valores: list):
     """
     Generates a SQL INSERT INTO statement for a specified table with the given column names and values.
 
