@@ -12,7 +12,7 @@ class MateriaController(Controller):
     def listar(self):
         return self.get(opciones={
                 'tabla':self.nombreTabla,
-                'columnas':[],
+                'columnas':None,
                 'columnaOrden':None,
                 'asc':None,
                 'desc':None,
