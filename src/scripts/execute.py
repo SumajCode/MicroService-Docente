@@ -39,6 +39,7 @@ class Ejecutar:
         """
         conn = self.connSQL if self.connPostSQL is None else self.connPostSQL
         conn.execute(consulta)
+        conn.connection.commit()
         return conn.fetchall()
 
     def crearTabla(self):
@@ -66,7 +67,32 @@ class Ejecutar:
             if modelo.nombreTabla not in [tabla[nombreColumna] for tabla in consulta]:
                 self.ejecutarConsulta(modelo.consultaCrearTabla())
                 print(f"Creacion de tabla {modelo.nombreTabla} exitosa.")
-                return f"Creacion de tabla exitosa."
+                return "Creacion de tabla exitosa."
             print(f"La tabla {modelo.nombreTabla} ya existe.")
-            return f"La tabla ya existe."
+            print(self.agregarColumnaTabla(modelo))
+            return "La tabla ya existe."
         return nuevaMigracion
+    
+    def eliminarTablas(self):
+        pass
+
+    def agregarColumnaTabla(self, modelo: Tabla):
+        nombreTabla = modelo.nombreTabla
+        columnasActuales = modelo.getNombreColumnas()
+        columnasDB = []
+        consulta = self.ejecutarConsulta(f"DESCRIBE {nombreTabla};")
+        for columna in consulta:
+            columnasDB.append(columna['Field'])
+        columnasAdicion=[]
+        for nombre in columnasDB:
+            if nombre in columnasActuales:
+                columnasActuales.remove(nombre)
+        if len(columnasActuales) > 0:
+            columnasActuales = [f"ADD COLUMN {modelo.getColumnaPorNombre(columna).columnaSQL()}" for columna in columnasActuales]
+            columnasAdicion.extend(columnasActuales)
+            consulta = f"ALTER TABLE {nombreTabla} \n"
+            consulta += " NULL,\n".join(columnasAdicion)
+            self.ejecutarConsulta(consulta)
+            return "Columnas nuevas agregadas."
+        return "No tiene columnas nuevas."
+        

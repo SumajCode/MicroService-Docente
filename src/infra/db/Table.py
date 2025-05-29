@@ -1,7 +1,8 @@
-from infra.db.Query import *
+from infra.db.Query import foreignKey, index, BaseConf
+from infra.db.Column import Columna
 
 class Tabla:
-    def __init__(self, nombreTabla: str, columnas: list):
+    def __init__(self, nombreTabla: str, columnas: list[Columna]):
         self.nombreTabla = nombreTabla
         self.columnas = columnas
 
@@ -30,7 +31,6 @@ class Tabla:
                 parametrosTabla.extend(indexs)
             else:
                 ";\n".join(indexs)
-        
         return f"""
 CREATE TABLE {self.nombreTabla} (
 {",\n".join(parametrosTabla)}
@@ -54,3 +54,11 @@ CREATE TABLE {self.nombreTabla} (
             list: A list of `Columna` objects representing the columns in the table.
         """
         return self.columnas
+    
+    def getColumnaPorNombre(self, nombre: str):
+        if nombre not in self.getNombreColumnas():
+            return "No existe la columna."
+        for columna in self.columnas:
+            if columna.nombreColumna == nombre:
+                return columna
+        return None

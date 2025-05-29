@@ -49,5 +49,5 @@ class ReadingDocs:
                     fila.remove(None)
                 tabla.append(fila)
             nombreColumnas = tabla[0]
-            preValores = [fila for fila in tabla[1:]]
+            preValores = tabla[1:]
         return Formater().formatoJSONDesdePDF(nombreColumnas, preValores)

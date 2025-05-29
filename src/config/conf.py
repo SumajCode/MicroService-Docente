@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class BaseConf:
+    @staticmethod
     def getBoolEnv(varName, default=False):
         """
         Retrieve a boolean environment variable.
@@ -17,7 +18,7 @@ class BaseConf:
                   truthy value ('true', '1', 't', 'yes', 'y'), otherwise False.
         """
 
-        val = os.getenv(varName, str(default))
+        val = os.getenv(str(varName), str(default))
         return val.lower() in ('true', '1', 't', 'yes', 'y')
 
     APP_NAME = os.getenv("APP_NAME")
@@ -25,22 +26,22 @@ class BaseConf:
     HOST = os.getenv("HOST")
     PORT_API = os.getenv("PORT_API")
     SECRET_KEY = os.getenv("SECRET_KEY")
-    DEBUG = getBoolEnv(varName="DEBUG")
-    TESTING = getBoolEnv(varName="TESTING")
+    DEBUG = getBoolEnv("DEBUG")
+    TESTING = getBoolEnv("TESTING")
 
     POSTGRES_USER = os.getenv("POSTGRES_USER")
     POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
     POSTGRES_HOST = os.getenv("POSTGRES_HOST")
     POSTGRES_PORT = os.getenv("POSTGRES_PORT")
     POSTGRES_DB = os.getenv("POSTGRES_DB")
-    POSTGRES_ACTIVE = getBoolEnv(varName="POSTGRES_ACTIVE")
+    POSTGRES_ACTIVE = getBoolEnv("POSTGRES_ACTIVE")
 
     SQL_USER = os.getenv("SQL_USER")
     SQL_PASSWORD = os.getenv("SQL_PASSWORD")
     SQL_HOST = os.getenv("SQL_HOST")
     SQL_PORT = os.getenv("SQL_PORT")
     SQL_DB = os.getenv("SQL_DB")
-    SQL_ACTIVE = getBoolEnv(varName="SQL_ACTIVE")
+    SQL_ACTIVE = getBoolEnv("SQL_ACTIVE")
 
     SMTP_HOST = os.getenv("SMTP_HOST")
     SMTP_PORT = os.getenv("SMTP_PORT")

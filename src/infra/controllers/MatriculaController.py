@@ -24,14 +24,15 @@ class MatriculaController(Controller):
                 archivo = None
                 if 'archivo' in request.files:
                     archivoTemporal = request.files['archivo']
-                    nombreArchivo = archivoTemporal.filename()
+                    nombreArchivo = archivoTemporal.filename(archivo)
                 else:
                     nombreArchivo = request.args.get('path')
             if len(nombreArchivo) > 5:
+                readingDocs = ReadingDocs()
                 if nombreArchivo.split('.')[-1] == 'xlsx':
-                    return self.get(datosObtenidos=ReadingDocs.leerXLS(nombreArchivo))
+                    return self.get(datosObtenidos=readingDocs.leerXLS(nombreArchivo))
                 if nombreArchivo.split('.')[-1] == 'pdf':
-                    return self.get(datosObtenidos=ReadingDocs.leerPDF(nombreArchivo))
+                    return self.get(datosObtenidos=readingDocs.leerPDF(nombreArchivo))
             return "Error"
         except Exception as excep:
             return excep

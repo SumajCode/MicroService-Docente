@@ -23,3 +23,6 @@ Thumbs.db
 # Archivos de VSCode u otros IDEs
 .vscode/
 .idea/
+
+# Scripts que pueden exponer la db
+*_script.py

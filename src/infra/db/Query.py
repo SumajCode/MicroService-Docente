@@ -1,4 +1,4 @@
-from infra.db.conn import *
+from infra.db.conn import BaseConf
 from infra.db.Column import Columna
 
 def formatoSQLInsertar(tabla: str, columnas: list, valores: list) -> list:
@@ -32,7 +32,7 @@ def foreignKey(columnas: list[Columna]):
             consulta = f"CONSTRAINT fk_{column.nombreColumna}"
             consulta += f" FOREIGN KEY ({column.nombreColumna})"
             consulta += f" REFERENCES {column.referenciaTabla}(id)"
-            consulta += f" ON DELETE CASCADE ON UPDATE CASCADE"
+            consulta += " ON DELETE CASCADE ON UPDATE CASCADE"
             resultado.append(consulta)
     return resultado
 
@@ -55,7 +55,7 @@ def index(columnas: list, nombreTabla: str):
                 consultaIndex += f" ({column.nombreColumna})"
                 resultado.append(consultaIndex)
             if BaseConf.POSTGRES_ACTIVE:
-                consultaIndex = f"CREATE INDEX"
+                consultaIndex = "CREATE INDEX"
                 consultaIndex += f" index_{nombreTabla}_{column.nombreColumna}"
                 consultaIndex += f" ON ({column.nombreColumna})"
                 resultado.append(consultaIndex)
@@ -112,8 +112,6 @@ def seleccionGroupBy(nombreTabla: str, columnas: list, columnaAgrupar: str):
         nombreTabla (str): Nombre de la tabla en la que se encuentran los registros.
         columnas (list): Lista de columnas que se desean seleccionar.
         columnaAgrupar (str): Nombre de la columna por la que se agrupar n los registros.
-        ascen (bool, optional): Indica si se ordena de forma ascendente. Defaults to False.
-        descen (bool, optional): Indica si se ordena de forma descendente. Defaults to False.
     
     Returns:
         str: Consulta SQL para seleccionar y agrupar los registros.
@@ -158,8 +156,8 @@ def ordenarPor(
     except Exception as excep:
         return f"Error encontrado: {excep}"
 
-def paginacion(numPag: int):
-    pass
+def paginacion(numPag: int=0):
+    return numPag
 
 def actualizar(idModel, nombreTabla: str, datos: dict):
     """
@@ -180,11 +178,10 @@ def actualizar(idModel, nombreTabla: str, datos: dict):
                 consulta += f"SET {columna} = {"\""+str(valor)+"\"" if isinstance(valor,str) else str(int(valor))},\n"
                 consulta += f" WHERE id = {idModel}"
             return consulta
+        return None
     except Exception as excep:
         return f"Error encontrado: {excep}"
-    pass
 
-def eliminar(id):
-    
-    pass
+def eliminar(idEliminar: int = 0):
+    return idEliminar
 

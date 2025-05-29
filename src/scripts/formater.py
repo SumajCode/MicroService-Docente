@@ -8,9 +8,9 @@ class Formater:
         (openpyxl) y devuelve una lista de diccionarios, donde cada diccionario 
         representa una fila con sus respectivos valores asociados a cada columna.
         
-        :param nombreColumnas: una lista de strings que representan los nombres de 
+        :nombreColumnas: una lista de strings que representan los nombres de 
         las columnas
-        :param lector: un objeto de lectura de excel (openpyxl)
+        :lector: un objeto de lectura de excel (openpyxl)
         :return: una lista de diccionarios, donde cada diccionario representa una fila
         con sus respectivos valores asociados a cada columna
         """
