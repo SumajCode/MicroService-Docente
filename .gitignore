@@ -9,6 +9,7 @@ env/
 # Archivos de caché
 __pycache__/
 *.py[cod]
+.pytest_cache
 
 # Archivos de base de datos temporales
 *.sqlite3

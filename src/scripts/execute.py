@@ -68,6 +68,15 @@ class Ejecutar:
                 self.ejecutarConsulta(modelo.consultaCrearTabla())
                 print(f"Creacion de tabla {modelo.nombreTabla} exitosa.")
                 return f"Creacion de tabla exitosa."
+            else:
+                self.actualizarTabla(model)
             print(f"La tabla {modelo.nombreTabla} ya existe.")
             return f"La tabla ya existe."
         return nuevaMigracion
+    
+    def eliminarTablas(self):
+        pass
+
+    def actualizarTabla(self, modelo: Tabla):
+        consulta = f"DESCRIBE {modelo.nombreTabla};"
+        
