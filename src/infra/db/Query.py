@@ -1,10 +1,7 @@
-from src.infra.db.conn import *
+from src.infra.db.conn import BaseConf
 from src.infra.db.Column import Columna
 
-breakLine = "\n"
-scapeValue = "\""
-
-def formatoSQLInsertar(tabla: str, columnas: list, valores: list):
+def formatoSQLInsertar(tabla: str, columnas: list, valores: list) -> list:
     """
     Generates a SQL INSERT INTO statement for a specified table with the given column names and values.
 
@@ -35,7 +32,7 @@ def foreignKey(columnas: list[Columna]):
             consulta = f"CONSTRAINT fk_{column.nombreColumna}"
             consulta += f" FOREIGN KEY ({column.nombreColumna})"
             consulta += f" REFERENCES {column.referenciaTabla}(id)"
-            consulta += f" ON DELETE CASCADE ON UPDATE CASCADE"
+            consulta += " ON DELETE CASCADE ON UPDATE CASCADE"
             resultado.append(consulta)
     return resultado
 
@@ -58,7 +55,7 @@ def index(columnas: list, nombreTabla: str):
                 consultaIndex += f" ({column.nombreColumna})"
                 resultado.append(consultaIndex)
             if BaseConf.POSTGRES_ACTIVE:
-                consultaIndex = f"CREATE INDEX"
+                consultaIndex = "CREATE INDEX"
                 consultaIndex += f" index_{nombreTabla}_{column.nombreColumna}"
                 consultaIndex += f" ON ({column.nombreColumna})"
                 resultado.append(consultaIndex)
@@ -77,7 +74,7 @@ def insertarEnTabla(nombreTabla: str, datos: dict):
     """
     try:
         columnas = datos.keys()
-        valores = [scapeValue+str(value)+scapeValue if isinstance(value,str) else str(int(value)) for value in datos.values()]
+        valores = ["\""+str(value)+"\"" if isinstance(value,str) else str(int(value)) for value in datos.values()]
         return formatoSQLInsertar(nombreTabla, columnas, [valores])
     except Exception as excep:
         return f"Error encontrado: {excep}"
@@ -100,7 +97,7 @@ def seleccionar(nombreTabla: str, columnas: list = None):
 
     try:
         if nombreTabla:
-            if columnas is None or len(columnas) == 0:
+            if columnas is None:
                 return f"SELECT * FROM {nombreTabla}"
             return f"SELECT {', '.join(columnas)} FROM {nombreTabla}"
         return ""
@@ -115,15 +112,13 @@ def seleccionGroupBy(nombreTabla: str, columnas: list, columnaAgrupar: str):
         nombreTabla (str): Nombre de la tabla en la que se encuentran los registros.
         columnas (list): Lista de columnas que se desean seleccionar.
         columnaAgrupar (str): Nombre de la columna por la que se agrupar n los registros.
-        ascen (bool, optional): Indica si se ordena de forma ascendente. Defaults to False.
-        descen (bool, optional): Indica si se ordena de forma descendente. Defaults to False.
     
     Returns:
         str: Consulta SQL para seleccionar y agrupar los registros.
     """
     try:
         if columnaAgrupar is not None:
-            return f"{seleccionar(nombreTabla, columnas)}{breakLine}GROUP BY({columnaAgrupar})"
+            return f"{seleccionar(nombreTabla, columnas)}\nGROUP BY({columnaAgrupar})"
         return seleccionar(nombreTabla, columnas)
     except Exception as excep:
         return f"Error encontrado: {excep}"
@@ -154,15 +149,15 @@ def ordenarPor(
         if columnaAgrupar is not None:
             consulta = seleccionGroupBy(nombreTabla, columnas, columnaAgrupar)
         if descen:
-            return f"{consulta}{scapeValue}ORDER BY({columnaOrden}) ASC"
+            return f"{consulta}\nORDER BY({columnaOrden}) ASC"
         if ascen:
-            return f"{consulta}{scapeValue}ORDER BY({columnaOrden}) DESC"
+            return f"{consulta}\nORDER BY({columnaOrden}) DESC"
         return consulta
     except Exception as excep:
         return f"Error encontrado: {excep}"
 
-def paginacion(numPag: int):
-    pass
+def paginacion(numPag: int=0):
+    return numPag
 
 def actualizar(idModel, nombreTabla: str, datos: dict):
     """
@@ -178,16 +173,15 @@ def actualizar(idModel, nombreTabla: str, datos: dict):
     """
     try:
         if idModel is not None or nombreTabla is not None or datos is not None:
-            consulta = f"UPDATE {nombreTabla}{scapeValue}"
+            consulta = f"UPDATE {nombreTabla}\n"
             for columna, valor in datos.items():
-                consulta += f"SET {columna} = {breakLine+str(valor)+breakLine if isinstance(valor,str) else str(int(valor))},{scapeValue}"
+                consulta += f"SET {columna} = {"\""+str(valor)+"\"" if isinstance(valor,str) else str(int(valor))},\n"
                 consulta += f" WHERE id = {idModel}"
             return consulta
+        return None
     except Exception as excep:
         return f"Error encontrado: {excep}"
-    pass
 
-def eliminar(id):
-    
-    pass
+def eliminar(idEliminar: int = 0):
+    return idEliminar
 

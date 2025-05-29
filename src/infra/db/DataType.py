@@ -2,7 +2,7 @@ def String(length=1):
     """
     Creates a VARCHAR data type with an optional length parameter.
 
-    :param length: The length of the VARCHAR data type. Defaults to 1.
+    :length: The length of the VARCHAR data type. Defaults to 1.
     :return: A VARCHAR data type as a string.
     """
     if length > 1:
@@ -56,6 +56,7 @@ def Set(listValues: list):
         for i in listValues:
             values.append(f"'{i}'" if i.isdigit() else i)
         return f" SET({','.join(values)})"
+    return None
 
 def Integer():
     """
@@ -69,8 +70,8 @@ def Decimal(size, numDigits):
     """
     Creates a DECIMAL data type with specified precision and scale.
 
-    :param size: The total number of digits (precision).
-    :param numDigits: The number of digits to the right of the decimal point (scale).
+    :size: The total number of digits (precision).
+    :numDigits: The number of digits to the right of the decimal point (scale).
     :return: A DECIMAL data type as a string.
     """
 

@@ -8,8 +8,7 @@ def crearDB():
     de la base de datos, llama a `crearBaseDatos()` para llevar a cabo la 
     creación, y luego imprime el resultado de la operación.
 
-    Returns:
-        str: Un mensaje indicando el éxito o el error en la creación de la base 
+    Returns: Un mensaje indicando el éxito o el error en la creación de la base 
         de datos.
     """
 

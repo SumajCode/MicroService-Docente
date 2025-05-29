@@ -24,7 +24,7 @@ def crearBaseDatos():
     try:
         connection = pymysql.connect(**config)
         with connection.cursor() as cursor:
-            cursor.execute(f"SHOW DATABASES;")
+            cursor.execute("SHOW DATABASES;")
             if BaseConf.SQL_DB not in [value['Database'] for value in cursor.fetchall()]:
                 cursor.execute(f"CREATE DATABASE IF NOT EXISTS {BaseConf.SQL_DB}")
                 connection.commit()
