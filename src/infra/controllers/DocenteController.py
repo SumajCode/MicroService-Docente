@@ -11,13 +11,20 @@ class DocenteController(Controller):
 
     def listar(self):
         return self.get(opciones={
-                'tabla': 'socio',#self.nombreTabla,
-                'columnas':['ci_socio', 'nombre_socio', 'apellidos_socio', 'fecha_afiliacion'],
+                'tabla': self.nombreTabla,
+                'columnas':self.columnas[1:-2],
                 'columnaOrden':None,
                 'asc':None,
                 'desc':None,
                 'columnaAgrupar':None
             })
+
+    def listarId(self, request):
+        
+        pass
+
+    def listarMaterias(self, request):
+        pass
 
     def crear(self, request):
         datosImportantes = {}
@@ -32,4 +39,7 @@ class DocenteController(Controller):
         pass
 
     def eliminar(self):
+        pass
+
+    def eliminarTodo(self, request):
         pass

@@ -11,11 +11,10 @@ class Controller:
     def __init__(self):
         self.ejecutor = Ejecutar()
 
-    def get(self, datosObtenidos=None, opciones: dict=None):
+    def get(self, datosObtenidos=None, opciones: dict=None, condiciones: dict=None):
         datos = []
         try:
             if datosObtenidos is None and 'tabla' in opciones.keys():
-                print("if none")
                 temporalDatos = self.ejecutor.ejecutarConsulta(ordenarPor(
                     opciones['tabla'],
                     opciones['columnas'],
@@ -25,20 +24,17 @@ class Controller:
                     opciones['columnaAgrupar']
                 ))
                 if opciones['columnas'] is not None:
-                    print("if none columns")
                     columnas = opciones['columnas']
                     for fila in temporalDatos:
                         datosEstructurados = {}
                         for nombreColumna in columnas:
                             datosEstructurados[nombreColumna] = fila[nombreColumna]
                         datos.append(datosEstructurados)
-                print("Jsonify datos de tabla")
                 return jsonify({
                     'data': datos,
                     'message' : 'OK',
                     'status' : 200
                 })
-            print("jsonify datos obtenidos")
             return jsonify({
                 'data': datosObtenidos,
                 'message' : 'OK',

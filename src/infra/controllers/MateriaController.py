@@ -12,12 +12,16 @@ class MateriaController(Controller):
     def listar(self):
         return self.get(opciones={
                 'tabla':self.nombreTabla,
-                'columnas':[],
+                'columnas':self.columnas[1:],
                 'columnaOrden':None,
                 'asc':None,
                 'desc':None,
                 'columnaAgrupar':None
             })
+
+    def listarPorDocente(self, request):
+        # * Usar request para obtener el id del docente y obtener todas sus materias
+        pass
 
     def crear(self, request):
         datosImportantes = {}

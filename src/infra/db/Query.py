@@ -104,6 +104,10 @@ def seleccionar(nombreTabla: str, columnas: list = None):
     except Exception as excep:
         return f"Error encontrado: {excep}"
 
+def seleccionarCon(nombreTabla: str, columnas: list, condiciones: dict):
+
+    pass
+
 def seleccionGroupBy(nombreTabla: str, columnas: list, columnaAgrupar: str):
     """
     Genera una consulta SQL para seleccionar registros en una tabla y agruparlos por una columna en particular.
@@ -155,6 +159,9 @@ def ordenarPor(
         return consulta
     except Exception as excep:
         return f"Error encontrado: {excep}"
+
+def seleccionarJoin(nombreTabla: str):
+    pass
 
 def paginacion(numPag: int=0):
     return numPag
