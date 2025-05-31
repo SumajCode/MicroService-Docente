@@ -13,7 +13,7 @@ from src.infra.routes.MatriculasRoutes import blueprint as blueMatricula
 def crearApp():
     app = Flask(__name__)
     CORS(app)
-    app.config.from_object('config.conf.BaseConf')
+    app.config.from_object('src.config.conf.BaseConf')
     padreBlueprint = Blueprint('apidocentes', __name__, url_prefix='/apidocentes/v1')
     
     @padreBlueprint.route('/')
