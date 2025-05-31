@@ -1,6 +1,9 @@
 from src.infra.db.conn import BaseConf
 from src.infra.db.Column import Columna
 
+breakLine = "\n"
+scapeValue = "\""
+
 def formatoSQLInsertar(tabla: str, columnas: list, valores: list) -> list:
     """
     Generates a SQL INSERT INTO statement for a specified table with the given column names and values.
@@ -74,7 +77,7 @@ def insertarEnTabla(nombreTabla: str, datos: dict):
     """
     try:
         columnas = datos.keys()
-        valores = ["\""+str(value)+"\"" if isinstance(value,str) else str(int(value)) for value in datos.values()]
+        valores = [scapeValue+str(value)+scapeValue if isinstance(value,str) else str(int(value)) for value in datos.values()]
         return formatoSQLInsertar(nombreTabla, columnas, [valores])
     except Exception as excep:
         return f"Error encontrado: {excep}"
@@ -158,9 +161,9 @@ def ordenarPor(
         if columnaAgrupar is not None:
             consulta = seleccionGroupBy(nombreTabla, columnas, columnaAgrupar)
         if descen:
-            return f"{consulta}\nORDER BY({columnaOrden}) ASC"
+            return f"{consulta}{breakLine}ORDER BY({columnaOrden}) ASC"
         if ascen:
-            return f"{consulta}\nORDER BY({columnaOrden}) DESC"
+            return f"{consulta}{breakLine}ORDER BY({columnaOrden}) DESC"
         return consulta
     except Exception as excep:
         return f"Error encontrado: {excep}"
@@ -182,11 +185,11 @@ def actualizar(idModel, nombreTabla: str, datos: dict):
     """
     try:
         if idModel is not None or nombreTabla is not None or datos is not None:
-            consulta = f"UPDATE {nombreTabla}\nSET "
+            consulta = f"UPDATE {nombreTabla}{breakLine}SET "
             valores = []
             for columna, valor in datos.items():
-                valores.append(f"{columna} = {"\""+str(valor)+"\"" if isinstance(valor,str) else str(int(valor))}")
-            consulta += f"{', '.join(valores)} \nWHERE id = {idModel}"
+                valores.append(f"{columna} = {scapeValue+str(valor)+scapeValue if isinstance(valor,str) else str(int(valor))}")
+            consulta += f"{', '.join(valores)} {breakLine}WHERE id = {idModel}"
             print(consulta)
             return consulta
         return None
@@ -206,7 +209,7 @@ def eliminarDeTabla(nombreTabla: str, idEliminar: int = 0):
     """
     try:
         if idEliminar is not None or nombreTabla is not None:
-            return f"DELETE FROM {nombreTabla}\nWHERE id = {idEliminar}"
+            return f"DELETE FROM {nombreTabla}{breakLine}WHERE id = {idEliminar}"
         return None
     except Exception as excep:
         return f"Error encontrado: {excep}"
