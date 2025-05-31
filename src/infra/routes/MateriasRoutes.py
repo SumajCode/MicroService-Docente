@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask import request
 
-from src.infra.controllers.MateriaController import MateriaController
+from infra.controllers.MateriaController import MateriaController
 
 controlador = MateriaController()
 blueprint = Blueprint('materia', __name__, url_prefix='/materia')
@@ -16,7 +16,7 @@ def eliminarMaterias():
 
 @blueprint.route('/listar', methods=['GET'])
 def obtenerMaterias():
-    return controlador.listar(request)
+    return controlador.listar()
 
 @blueprint.route('/docentes', methods=['GET'])
 def obtenerDocentesPorMateria():
