@@ -19,6 +19,8 @@ class Tabla:
         """
 
         parametrosTabla = []
+        breakLineComa = ",\n"
+        breakLineDotComa = ";\n"
         for i in self.columnas:
             parametrosTabla.append(i.columnaSQL())
         llavesForaneas = foreignKey(self.columnas)
@@ -30,10 +32,10 @@ class Tabla:
             if BaseConf.POSTGRES_ACTIVE is False:
                 parametrosTabla.extend(indexs)
             else:
-                ";\n".join(indexs)
+                breakLineDotComa.join(indexs)
         return f"""
 CREATE TABLE {self.nombreTabla} (
-{",\n".join(parametrosTabla)}
+{breakLineComa.join(parametrosTabla)}
 );
 {postgreIndexs}"""
     
