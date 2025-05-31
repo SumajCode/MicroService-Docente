@@ -16,7 +16,7 @@ def eliminarMaterias():
 
 @blueprint.route('/listar', methods=['GET'])
 def obtenerMaterias():
-    return controlador.listar(request)
+    return controlador.listar()
 
 @blueprint.route('/docentes', methods=['GET'])
 def obtenerDocentesPorMateria():
