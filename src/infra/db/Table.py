@@ -32,11 +32,10 @@ class Tabla:
             if BaseConf.POSTGRES_ACTIVE is False:
                 parametrosTabla.extend(indexs)
             else:
-                breakLineDotComa.join(indexs)
+                postgreIndexs=breakLineDotComa.join(indexs)
         return f"""
 CREATE TABLE {self.nombreTabla} (
-{breakLineComa.join(parametrosTabla)}
-);
+{breakLineComa.join(parametrosTabla)});
 {postgreIndexs}"""
     
     def getNombreColumnas(self):
