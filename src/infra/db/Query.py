@@ -130,7 +130,7 @@ def seleccionGroupBy(nombreTabla: str, columnas: list, columnaAgrupar: str):
     """
     try:
         if columnaAgrupar is not None:
-            return f"{seleccionar(nombreTabla, columnas)}\nGROUP BY({columnaAgrupar})"
+            return f"{seleccionar(nombreTabla, columnas)}{breakLine}GROUP BY({columnaAgrupar})"
         return seleccionar(nombreTabla, columnas)
     except Exception as excep:
         return f"Error encontrado: {excep}"
