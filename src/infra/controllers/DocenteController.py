@@ -1,6 +1,6 @@
-from infra.controllers.Controller import Controller
-from infra.models.DocenteModel import DocenteModel
-from infra.db.querys.QuerysBuild import eliminarDocenteYMateria, consultaParaDocenteMaterias, consultaPorId
+from src.infra.controllers.Controller import Controller
+from src.infra.models.DocenteModel import DocenteModel
+from src.infra.db.querys.QuerysBuild import eliminarDocenteYMateria, consultaParaDocenteMaterias, consultaPorId
 
 class DocenteController(Controller):
 
