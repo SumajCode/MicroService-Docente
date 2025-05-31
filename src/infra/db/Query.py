@@ -103,6 +103,15 @@ def seleccionar(nombreTabla: str, columnas: list = None):
         return ""
     except Exception as excep:
         return f"Error encontrado: {excep}"
+    
+def seleccionarCon(nombreTabla: str, columnas: list, condiciones: dict):
+    try:
+        if nombreTabla is not None:
+            if condiciones is None:
+                return seleccionar(nombreTabla, columnas)
+            
+    except:
+        return ""
 
 def seleccionGroupBy(nombreTabla: str, columnas: list, columnaAgrupar: str):
     """
@@ -173,15 +182,32 @@ def actualizar(idModel, nombreTabla: str, datos: dict):
     """
     try:
         if idModel is not None or nombreTabla is not None or datos is not None:
-            consulta = f"UPDATE {nombreTabla}\n"
+            consulta = f"UPDATE {nombreTabla}\nSET "
+            valores = []
             for columna, valor in datos.items():
-                consulta += f"SET {columna} = {"\""+str(valor)+"\"" if isinstance(valor,str) else str(int(valor))},\n"
-                consulta += f" WHERE id = {idModel}"
+                valores.append(f"{columna} = {"\""+str(valor)+"\"" if isinstance(valor,str) else str(int(valor))}")
+            consulta += f"{', '.join(valores)} \nWHERE id = {idModel}"
+            print(consulta)
             return consulta
         return None
     except Exception as excep:
         return f"Error encontrado: {excep}"
 
-def eliminar(idEliminar: int = 0):
-    return idEliminar
+def eliminarDeTabla(nombreTabla: str, idEliminar: int = 0):
+    """
+    Genera una consulta SQL para eliminar un registro en una tabla.
+    
+    Args:
+        nombreTabla (str): Nombre de la tabla en la que se encuentra el registro.
+        idEliminar (int): Id del registro a eliminar.
+    
+    Returns:
+        str: Consulta SQL para eliminar el registro.
+    """
+    try:
+        if idEliminar is not None or nombreTabla is not None:
+            return f"DELETE FROM {nombreTabla}\nWHERE id = {idEliminar}"
+        return None
+    except Exception as excep:
+        return f"Error encontrado: {excep}"
 

@@ -1,16 +1,64 @@
+from flask import jsonify
+
 class Formater:
     def __init__(self):
         pass
 
+    def formatoResSQL(self, columnas, temporalDatos):
+        """
+        Convierte una lista de filas de datos y una lista de nombres de columnas
+        en una lista de diccionarios, donde cada diccionario representa una fila
+        con sus respectivos valores asociados a cada columna.
+
+        Args:
+            columnas (list): Lista de nombres de columnas.
+            temporalDatos (list): Lista de filas de datos.
+
+        Returns:
+            list: Lista de diccionarios, cada diccionario representa una fila con
+            sus respectivos valores asociados a cada columna.
+        """
+        datos =[]
+        for fila in temporalDatos:
+            datosEstructurados = {}
+            for nombreColumna in columnas:
+                datosEstructurados[nombreColumna] = fila[nombreColumna]
+            datos.append(datosEstructurados)
+        return datos
+
+    def json(self, datos):
+        """
+        Convierte una lista de datos en un objeto JSON con las siguientes
+        claves:
+        
+        - data: la lista de datos
+        - message: 'OK'
+        - status: 200
+
+        :param datos: lista de datos
+        :return: objeto JSON con las claves mencionadas
+        """
+        nuevosDatos = []
+        datosEstructurados = {}
+        for dato in datos:
+            for key, value in dato.items():
+                datosEstructurados[key] = value if value is not None else ""
+            nuevosDatos.append(datosEstructurados)
+        return jsonify({
+            'data':nuevosDatos,
+            'message':'OK',
+            'status':200
+        })
+    
     def formatoJSONDesdeXLS(self, nombreColumnas, lector):
         """
         Toma una lista de nombres de columnas y un objeto de lectura de excel 
         (openpyxl) y devuelve una lista de diccionarios, donde cada diccionario 
         representa una fila con sus respectivos valores asociados a cada columna.
         
-        :param nombreColumnas: una lista de strings que representan los nombres de 
+        :nombreColumnas: una lista de strings que representan los nombres de 
         las columnas
-        :param lector: un objeto de lectura de excel (openpyxl)
+        :lector: un objeto de lectura de excel (openpyxl)
         :return: una lista de diccionarios, donde cada diccionario representa una fila
         con sus respectivos valores asociados a cada columna
         """

@@ -7,17 +7,38 @@ class MatriculaController(Controller):
     def __init__(self):
         super().__init__()
         modelo = MatriculaModel()
+        self.readingDocs = ReadingDocs()
         self.nombreTabla = modelo.nombreTabla
         self.columnas = modelo.getNombreColumnas()
 
     def listar(self, request):
-        try:
-            # * Mediante un inner join obtener la lista de matriculados en un curso
-            return request
-        except Exception as excep:
-            return excep
+        """
+        Listar todas las matrículas, con detalles específicos.
 
-    def crear(self, request):
+        Args:
+            request: El request que podría contener filtros o configuraciones
+            adicionales para personalizar la lista de matrículas.
+
+        Returns:
+            Un objeto JSON con la lista de matrículas basadas en los criterios
+            proporcionados en el request.
+        """
+
+        return self.rget()
+
+    def getMatriculados(self, request):
+        """
+        Devuelve una lista de matriculados seg n el archivo cargado.
+
+        Args:
+            request (flask.Request): El request que contiene el archivo
+                a procesar.
+
+        Returns:
+            dict: Contiene la lista de matriculados en la clave
+                'datosObtenidos', y opciones y condiciones vac as en las
+                claves 'opciones' y 'condiciones' respectivamente.
+        """
         try:
             nombreArchivo = ''
             if request is not None:
@@ -28,14 +49,22 @@ class MatriculaController(Controller):
                 else:
                     nombreArchivo = request.args.get('path')
             if len(nombreArchivo) > 5:
-                readingDocs = ReadingDocs()
                 if nombreArchivo.split('.')[-1] == 'xlsx':
-                    return self.get(datosObtenidos=readingDocs.leerXLS(nombreArchivo))
+                    return self.rget({
+                        'datosObtenidos':self.readingDocs.leerXLS(nombreArchivo),
+                        'opciones':None,
+                        'condiciones':None})
                 if nombreArchivo.split('.')[-1] == 'pdf':
-                    return self.get(datosObtenidos=readingDocs.leerPDF(nombreArchivo))
+                    return self.rget({
+                        'datosObtenidos':self.readingDocs.leerPDF(nombreArchivo),
+                        'opciones':None,
+                        'condiciones':None})
             return "Error"
         except Exception as excep:
             return excep
+
+    def crear(self, request):
+        pass
 
     # def modificar(self):
     #     pass
