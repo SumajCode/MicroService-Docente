@@ -20,7 +20,7 @@ def obtenerMaterias():
 
 @blueprint.route('/docentes', methods=['GET'])
 def obtenerDocentesPorMateria():
-    return controlador.listarDocentesPorMateria(request)
+    return controlador.listarPorDocente(request)
 
 @blueprint.route('/crear', methods=['POST'])
 def crearMateria():

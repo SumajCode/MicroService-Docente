@@ -18,9 +18,13 @@ def eliminarDocentes():
 def obtenerDocentes():
     return controlador.listar()
 
+@blueprint.route('/listar/id', methods=['GET'])
+def obtenerDocente():
+    return controlador.listarId(request)
+
 @blueprint.route('/materias', methods=['GET'])
 def obtenerMateriasPorDocente():
-    return controlador.listarMateriasPorDocente(request)
+    return controlador.listarMaterias(request)
 
 @blueprint.route('/crear', methods=['POST'])
 def crearDocente():

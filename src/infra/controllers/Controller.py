@@ -1,70 +1,31 @@
-from flask import jsonify
+from domain.GetResponse import RespuestaGet
+from domain.PostResponse import RespuestaPost
+from domain.DeleteResponse import RespuestaDelete
+from domain.SQLResponse import RespuestaSQL
+from domain.PatchResponse import RespuestaPatch
 
-from infra.controllers.errors.ErrorsClients import APIHTTPExceptionsClient
-from infra.controllers.errors.ErrorsServer import APIHTTPExceptionsServer
-
-from scripts.execute import Ejecutar
-from infra.db.Query import ordenarPor, insertarEnTabla
-
-class Controller:
+class Controller(RespuestaGet, RespuestaPost, RespuestaDelete, RespuestaSQL, RespuestaPatch):
 
     def __init__(self):
-        self.ejecutor = Ejecutar()
+        super().__init__()
 
-    def get(self, datosObtenidos=None, opciones: dict=None, condiciones: dict=None):
-        datos = []
-        try:
-            if datosObtenidos is None and 'tabla' in opciones.keys():
-                temporalDatos = self.ejecutor.ejecutarConsulta(ordenarPor(
-                    opciones['tabla'],
-                    opciones['columnas'],
-                    opciones['columnaOrden'],
-                    opciones['asc'],
-                    opciones['desc'],
-                    opciones['columnaAgrupar']
-                ))
-                if opciones['columnas'] is not None:
-                    columnas = opciones['columnas']
-                    for fila in temporalDatos:
-                        datosEstructurados = {}
-                        for nombreColumna in columnas:
-                            datosEstructurados[nombreColumna] = fila[nombreColumna]
-                        datos.append(datosEstructurados)
-                return jsonify({
-                    'data': datos,
-                    'message' : 'OK',
-                    'status' : 200
-                })
-            return jsonify({
-                'data': datosObtenidos,
-                'message' : 'OK',
-                'status' : 200
-            })
-        except (APIHTTPExceptionsClient and APIHTTPExceptionsServer) as excep:
-            return jsonify({
-                'message' : excep.description,
-                'status' : excep.code
-            })
+    def get(self, datos):
+        return self.rget(datos)
 
-    def post(self, data):
-        try:
-            data = self.ejecutor.ejecutarConsulta(insertarEnTabla(data['tabla'], data['datos']))
-            return jsonify({
-                'data': data,
-                'message' : 'OK',
-                'status' : 200
-            })
-        except APIHTTPExceptionsClient and APIHTTPExceptionsServer as excep:
-            return jsonify({
-                'message' : excep.description,
-                'status' : excep.code
-            })
+    def post(self, datos):
+        return self.rpost(datos)
 
-    def patch(self):
-        pass
+    def getSQL(self, query):
+        return self.rgetSQL(query)
+
+    def patch(self, datos):
+        return self.rpatch(datos)
 
     def put(self):
         pass
 
-    def delete(self):
-        pass
+    def delete(self, datos):
+        return self.rdelete(datos)
+    
+    def deleteAndGet(self, querys):
+        return self.deleteAndGetSQL(querys)
