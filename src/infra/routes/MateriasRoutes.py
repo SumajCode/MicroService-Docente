@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask import request
 
-from infra.controllers.MateriaController import MateriaController
+from src.infra.controllers.MateriaController import MateriaController
 
 controlador = MateriaController()
 blueprint = Blueprint('materia', __name__, url_prefix='/materia')
