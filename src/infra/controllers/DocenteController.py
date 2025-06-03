@@ -21,7 +21,7 @@ class DocenteController(Controller):
             'datosObtenidos':None,
             'opciones':{
                 'tabla': self.nombreTabla,
-                'columnas':self.columnas[1:-2],
+                'columnas':self.columnas[:-2],
                 'columnaOrden':None,
                 'asc':None,
                 'desc':None,

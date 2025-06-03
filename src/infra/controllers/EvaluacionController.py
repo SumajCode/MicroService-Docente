@@ -12,7 +12,7 @@ class EvaluacionController(Controller):
     def listar(self):
         return self.get(opciones={
                 'tabla':self.nombreTabla,
-                'columnas':[],
+                'columnas':self.columnas,
                 'columnaOrden':None,
                 'asc':None,
                 'desc':None,
