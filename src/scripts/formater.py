@@ -39,8 +39,8 @@ class Formater:
         :return: objeto JSON con las claves mencionadas
         """
         nuevosDatos = []
-        datosEstructurados = {}
         for dato in datos:
+            datosEstructurados = {}
             for key, value in dato.items():
                 datosEstructurados[key] = value if value is not None else ""
             nuevosDatos.append(datosEstructurados)
