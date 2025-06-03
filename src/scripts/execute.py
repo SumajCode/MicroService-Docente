@@ -39,7 +39,8 @@ class Ejecutar:
         """
         conn = self.connSQL if self.connPostSQL is None else self.connPostSQL
         conn.execute(consulta)
-        conn.connection.commit()
+        if "UPDATE" in consulta or "CREATE" in consulta or "INSERT" in consulta:
+            conn.connection.commit()
         return conn.fetchall()
 
     def crearTabla(self):
