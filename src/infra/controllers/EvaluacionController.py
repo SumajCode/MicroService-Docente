@@ -1,5 +1,5 @@
-from .Controller import Controller
-from ..models.EvaluacionModel import EvaluacionModel
+from infra.controllers.Controller import Controller
+from infra.models.EvaluacionModel import EvaluacionModel
 
 class EvaluacionController(Controller):
 
@@ -8,12 +8,11 @@ class EvaluacionController(Controller):
         modelo = EvaluacionModel()
         self.nombreTabla = modelo.nombreTabla
         self.columnas = modelo.getNombreColumnas()
-    
+
     def listar(self):
-        return self.get( 
-            opciones={
+        return self.get(opciones={
                 'tabla':self.nombreTabla,
-                'columnas':[],
+                'columnas':self.columnas[1:],
                 'columnaOrden':None,
                 'asc':None,
                 'desc':None,
@@ -30,7 +29,6 @@ class EvaluacionController(Controller):
         return self.post({'tabla': self.nombreTabla, 'datos': datosImportantes})
 
     def modificar(self, request):
-
         pass
 
     def eliminar(self):

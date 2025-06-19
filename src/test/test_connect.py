@@ -1,11 +1,6 @@
-from ..scripts.execute import Ejecutar
+from scripts.execute import Ejecutar
 
-def test_conectarPostgres():
-    conn = Ejecutar().ejecutarConsulta("SELECT ci_socio, nombre_socio, apellidos_socio, fecha_afiliacion FROM socio;")
-    columnas = ['ci_socio', 'nombre_socio', 'apellidos_socio', 'fecha_afiliacion']
-    for column in conn:
-        for columna in columnas:
+def test_conectar():
+    conn = Ejecutar().ejecutarConsulta("SHOW FULL TABLES FROM otb_linde;")
 
-            print(f"{columna}: {column[columna]}")
-
-test_conectarPostgres()
+test_conectar()
