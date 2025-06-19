@@ -41,7 +41,6 @@ class MateriaController(Controller):
                 id = request.args.get('id')
         id = int(id)
         if id > 0:
-            print(id)
             return self.getSQL(consultaParaMateriaDocentes(id))
 
     def crear(self, request):

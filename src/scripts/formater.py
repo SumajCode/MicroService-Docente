@@ -49,7 +49,7 @@ class Formater:
             'message':'OK',
             'status':200
         })
-    
+
     def formatoJSONDesdeXLS(self, nombreColumnas, lector):
         """
         Toma una lista de nombres de columnas y un objeto de lectura de excel 

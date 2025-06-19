@@ -91,12 +91,10 @@ class DocenteController(Controller):
             La respuesta del método post que indica el resultado de la operación de
             inserción.
         """
-
         datosImportantes = {}
         datos = request.get_json() if request.is_json else request.form
         for i  in self.columnas:
             if i in datos:
-                print(datos.get(i))
                 datosImportantes[i] = datos.get(i)
         return self.rpost({'tabla': self.nombreTabla, 'datos': datosImportantes})
 
