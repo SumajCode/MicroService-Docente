@@ -74,11 +74,32 @@ def insertarEnTabla(nombreTabla: str, datos: dict):
     """
     try:
         columnas = datos.keys()
-        valores = ["\""+str(value)+"\"" if isinstance(value,str) else str(int(value)) for value in datos.values()]
+        valores = []
+        for value in datos.values():
+            if isinstance(value,str) and not value.isdigit():
+                valores.append("\""+str(value)+"\"")
+            else:
+                valores.append(str(int(value)))
         return formatoSQLInsertar(nombreTabla, columnas, [valores])
     except Exception as excep:
         return f"Error encontrado: {excep}"
 
+def insertarTodoEnTabla(nombreTabla: str, datos: dict):
+    try:
+        columnas = datos['columns']
+        valores = []
+        for item in datos['data']:
+            preList = []
+            for value in item.values():
+                if isinstance(value,str) and not value.isdigit():
+                    preList.append("\""+str(value)+"\"")
+                else:
+                    preList.append(str(int(value)))
+            valores.append(preList)
+        return formatoSQLInsertar(nombreTabla, columnas, valores)
+    except Exception as excep:
+        return f"Error encontrado: {excep}"
+    
 def seleccionar(nombreTabla: str, columnas: list = None):
     """
     Generates a SQL SELECT query to retrieve data from a specified table.

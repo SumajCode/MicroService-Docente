@@ -1,5 +1,6 @@
 import requests
 import os
+from flask import jsonify
 from werkzeug.utils import secure_filename
 from infra.controllers.Controller import Controller
 from scripts.docs.ReadingDocs import ReadingDocs
@@ -99,29 +100,51 @@ class MatriculaController(Controller):
                         'datosObtenidos': self.readingDocs.leerXLS(nombreArchivo),
                         'opciones': None,
                         'condiciones': None}).get_json()
-                    predata['data'] = {
-                        'datos_matriculados': predata['data'],
-                        'materia': materia}
                 if nombreArchivo.split('.')[-1] == 'pdf':
                     predata = self.rget({
                         'datosObtenidos': self.readingDocs.leerPDF(nombreArchivo),
                         'opciones': None,
                         'condiciones': None}).get_json()
-                    predata['data'] = {
-                        'datos_matriculados': predata['data'],
-                        'materia': materia}
                 os.remove(nombreArchivo)
-                return predata
-            return "Error"    
+                urlPost = f"{self.urlEstudiantes}/registrarLoteEstudiantes"
+                response = requests.post(url=urlPost, json=predata['data'])
+                contentType = response.headers.get('Content-Type', '')
+                if response.status_code >= 200 and response.status_code < 300 and 'application/json' in contentType:
+                    response = response.json()
+                    response = response.get('resultados')
+                    datosEstudiantes = [item['data']['id_estudiante'] for item in response]
+                    datosPost = [{'id_materia': materia, 'id_estudiante': item} for item in datosEstudiantes if item is not None]
+                    return self.rallpost({
+                        'tabla': self.nombreTabla,
+                        'datos':{
+                            'data': datosPost,
+                            'columns': self.columnas[1:]
+                        }})
+            return "Hubo un Error revisa el codigo."
         except Exception as excep:
-            return excep
+            return self.formater.json({
+                'message': dict(excep),
+                'status': 500
+            })
 
-    def crear(self, request):
+    def crearPorIDMateria(self, request):
         datosImportantes = {}
         datos = request.get_json() if request.is_json else request.form
         for i  in self.columnas:
             if i in datos:
                 datosImportantes[i] = datos.get(i)
+        return self.rpost({'tabla': self.nombreTabla, 'datos': datosImportantes})
+
+    def crear(self, request):
+        datosImportantes = {}
+        datos = request.get_json() if request.is_json else request.form
+        datosEstudiante = datos.get('estudiante')
+        estudiante = requests.post(f"{self.urlEstudiantes}/estudiantes/registrar", datosEstudiante)
+        if estudiante.status_code == 400:
+            return self.formater.json({})
+        datosImportantes = {
+            'id_materia': datos.get('id_materia'),
+            'id_estudiante': estudiante.get('data')['id_estudiante']}
         return self.rpost({'tabla': self.nombreTabla, 'datos': datosImportantes})
 
     def eliminar(self, request):

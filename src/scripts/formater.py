@@ -116,6 +116,11 @@ class Formater:
         for dato in datos:
             datosEstruturados = {}
             for i in range(len(nombreColumnas)):
-                datosEstruturados[nombreColumnas[i]] = str(dato[i]) if isinstance(dato[i],str) and not dato[i].isdigit() else int(dato[i])
+                if dato[i]:
+                    if isinstance(dato[i],str) and not dato[i].isdigit():
+                        datosEstruturados[f"{nombreColumnas[i].lower()}_estudiante"] = str(dato[i])
+                    else: 
+                        datosEstruturados[f"{nombreColumnas[i].lower()}_estudiante"] = int(dato[i])
             nuevosValores.append(datosEstruturados)
+        nuevosValores = [item for item in nuevosValores if item]
         return nuevosValores
