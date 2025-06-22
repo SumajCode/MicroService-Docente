@@ -3,7 +3,7 @@ from infra.controllers.errors.ErrorsServer import APIHTTPExceptionsServer
 
 from scripts.formater import Formater
 from scripts.execute import Ejecutar
-from infra.db.Query import insertarEnTabla
+from infra.db.Query import insertarEnTabla, insertarTodoEnTabla
 
 class RespuestaPost:
 
@@ -26,6 +26,16 @@ class RespuestaPost:
         """
         try:
             data = self.ejecutor.ejecutarConsulta(insertarEnTabla(data['tabla'], data['datos']))
+            return self.formater.json(data)
+        except APIHTTPExceptionsClient and APIHTTPExceptionsServer as excep:
+            return self.formater.json({
+                'message' : excep.description,
+                'status' : excep.code
+            })
+    
+    def rallpost(self, data):
+        try:
+            data = self.ejecutor.ejecutarConsulta(insertarTodoEnTabla(data['tabla'], data['datos']))
             return self.formater.json(data)
         except APIHTTPExceptionsClient and APIHTTPExceptionsServer as excep:
             return self.formater.json({
