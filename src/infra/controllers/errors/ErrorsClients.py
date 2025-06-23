@@ -4,6 +4,7 @@ class APIHTTPExceptionsClient(HTTPException):
     def __init__(self):
         self.code = 0
         self.description = ""
+        HTTPException.__init__(self)
 
     def invalidAccess(self):
         self.code = 403

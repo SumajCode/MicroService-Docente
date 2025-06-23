@@ -5,6 +5,7 @@ class APIHTTPExceptionsServer(HTTPException):
     def __init__(self):
         self.code = 0
         self.description = ""
+        HTTPException.__init__(self)
 
     def serverError(self):
         self.code = 500

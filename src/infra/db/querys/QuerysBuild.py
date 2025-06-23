@@ -66,9 +66,9 @@ def consultaParaMateriaMatriculados(idMateria):
 SELECT * FROM matricula WHERE id_materia = {idMateria}
 """
 
-def consultaPorId(id, columnas: list, nombreTabla):
+def consultaPorId(idTabla, columnas: list, nombreTabla):
     return f"""
-SELECT DISTINCT {','.join(columnas)} FROM {nombreTabla} WHERE {nombreTabla}.id = {id};
+SELECT DISTINCT {','.join(columnas)} FROM {nombreTabla} WHERE {nombreTabla}.id = {idTabla};
 """
 
 def eliminarDocenteYMateria(idDocente):

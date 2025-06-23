@@ -27,7 +27,7 @@ class MatriculaController(Controller):
             Un objeto JSON con la lista de matrículas basadas en los criterios
             proporcionados en el request.
         """
-        estudiantesDatos = requests.get(self.urlEstudiantes+"/estudiantes/")
+        estudiantesDatos = requests.get(self.urlEstudiantes+"/estudiantes/", timeout=10)
         estudiantesDatos = estudiantesDatos.json().get('data')
         requestLocal = request.get_json() if request.is_json else None
         idMateria = ''
@@ -104,7 +104,7 @@ class MatriculaController(Controller):
                         'condiciones': None}).get_json()
                 os.remove(nombreArchivo)
                 urlPost = f"{self.urlEstudiantes}/registrarLoteEstudiantes"
-                response = requests.post(url=urlPost, json=predata['data'])
+                response = requests.post(url=urlPost, json=predata['data'], timeout=10)
                 contentType = response.headers.get('Content-Type', '')
                 if response.status_code >= 200 and response.status_code < 300 and 'application/json' in contentType:
                     response = response.json()
@@ -136,7 +136,7 @@ class MatriculaController(Controller):
         datosImportantes = {}
         datos = request.get_json() if request.is_json else request.form
         datosEstudiante = datos.get('estudiante')
-        estudiante = requests.post(f"{self.urlEstudiantes}/estudiantes/registrar", datosEstudiante)
+        estudiante = requests.post(f"{self.urlEstudiantes}/estudiantes/registrar", datosEstudiante, timeout=10)
         if estudiante.status_code == 400:
             return self.formater.json({})
         datosImportantes = {

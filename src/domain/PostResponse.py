@@ -1,6 +1,3 @@
-from infra.controllers.errors.ErrorsClients import APIHTTPExceptionsClient
-from infra.controllers.errors.ErrorsServer import APIHTTPExceptionsServer
-
 from scripts.formater import Formater
 from scripts.execute import Ejecutar
 from infra.db.Query import insertarEnTabla, insertarTodoEnTabla
@@ -27,18 +24,29 @@ class RespuestaPost:
         try:
             data = self.ejecutor.ejecutarConsulta(insertarEnTabla(data['tabla'], data['datos']))
             return self.formater.json(data)
-        except APIHTTPExceptionsClient and APIHTTPExceptionsServer as excep:
+        except Exception as excep:
             return self.formater.json({
-                'message' : excep.description,
-                'status' : excep.code
+                'message' : str(excep),
+                'status' : 500
             })
     
     def rallpost(self, data):
+        """
+        Maneja la respuesta para una peticion POST con multiples datos.
+
+        Devuelve un JSON con los datos de la respuesta de la consulta, si no
+        hubo errores en la consulta. Si hubo errores, devuelve un JSON con
+        el mensaje de error y el codigo de estado.
+
+        data: Diccionario con los datos de la peticion.
+        
+        return: Un JSON con los datos de la respuesta de la consulta.
+        """
         try:
             data = self.ejecutor.ejecutarConsulta(insertarTodoEnTabla(data['tabla'], data['datos']))
             return self.formater.json(data)
-        except APIHTTPExceptionsClient and APIHTTPExceptionsServer as excep:
+        except Exception as excep:
             return self.formater.json({
-                'message' : excep.description,
-                'status' : excep.code
+                'message' : str(excep),
+                'status' : 500
             })

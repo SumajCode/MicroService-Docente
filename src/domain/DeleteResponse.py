@@ -1,6 +1,3 @@
-from infra.controllers.errors.ErrorsClients import APIHTTPExceptionsClient
-from infra.controllers.errors.ErrorsServer import APIHTTPExceptionsServer
-
 from scripts.execute import Ejecutar
 from scripts.formater import Formater
 from infra.db.Query import eliminarDeTabla
@@ -20,8 +17,9 @@ class RespuestaDelete:
                         datos['idEliminar'])
                     )
                 )
+            return None
         except Exception as excep:
             return self.formater.json({
-                'message' : excep.description,
-                'status' : excep.code
+                'message' : str(excep),
+                'status' : 500
             })
