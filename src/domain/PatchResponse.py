@@ -21,7 +21,7 @@ class RespuestaPatch:
                         datos['datos']))
                 )
             return None
-        except APIHTTPExceptionsClient and APIHTTPExceptionsServer as excep:
+        except Exception as excep:
             return self.formater.json({
                 'message' : excep.description,
                 'status' : excep.code

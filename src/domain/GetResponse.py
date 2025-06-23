@@ -48,7 +48,7 @@ class RespuestaGet:
             # if condiciones is not None:
             #     return self.getDatosDBJoin(opciones, condiciones)
             return self.formater.json(datosObtenidos)
-        except (APIHTTPExceptionsClient and APIHTTPExceptionsServer) as excep:
+        except Exception as excep:
             return self.formater.json({
                 'message' : excep.description,
                 'status' : excep.code

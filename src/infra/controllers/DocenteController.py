@@ -38,17 +38,17 @@ class DocenteController(Controller):
         Returns:
             Un objeto JSON con el docente especificado.
         """
-        id = 0
+        idDocente = 0
         if request.is_json: 
             datos = request.get_json()
-            id = datos.get('id') if datos else 0
-        if id == 0:
+            idDocente = datos.get('id') if datos else 0
+        if idDocente == 0:
             if request.form:
-                id = request.form.get('id')
+                idDocente = request.form.get('id')
             else:
-                id = request.args.get('id')
-        if int(id) > 0:
-            return self.getSQL(consultaPorId(int(id), self.columnas[1:-2], self.nombreTabla))
+                idDocente = request.args.get('id')
+        if int(idDocente) > 0:
+            return self.getSQL(consultaPorId(int(idDocente), self.columnas[1:-2], self.nombreTabla))
         return None
 
     def listarMaterias(self, request):
@@ -60,17 +60,17 @@ class DocenteController(Controller):
         Returns:
             Un objeto JSON con la lista de materias asociadas al docente especificado.
         """
-        id = 0
+        idDocente = 0
         if request.is_json: 
             datos = request.get_json()
-            id = datos.get('id') if datos else 0
-        if id == 0:
+            idDocente = datos.get('id') if datos else 0
+        if idDocente == 0:
             if request.form:
-                id = request.form.get('id')
+                idDocente = request.form.get('id')
             else:
-                id = request.args.get('id')
-        if int(id) > 0:
-            return self.getSQL(consultaParaDocenteMaterias(int(id)))
+                idDocente = request.args.get('id')
+        if int(idDocente) > 0:
+            return self.getSQL(consultaParaDocenteMaterias(int(idDocente)))
         return None
 
     def crear(self, request):
@@ -112,17 +112,17 @@ class DocenteController(Controller):
         Returns:
             Un objeto JSON vac o con un mensaje de error.
         """
-        id = 0
+        idDocente = 0
         if request.is_json: 
             datos = request.get_json()
-            id = datos.get('id') if datos else 0
-        if id == 0:
+            idDocente = datos.get('id') if datos else 0
+        if idDocente == 0:
             if request.form:
-                id = request.form.get('id')
+                idDocente = request.form.get('id')
             else:
-                id = request.args.get('id')
-        if int(id) > 0:
-            return self.getSQL(eliminarDocenteYMateria(int(id)))
+                idDocente = request.args.get('id')
+        if int(idDocente) > 0:
+            return self.getSQL(eliminarDocenteYMateria(int(idDocente)))
         return None
 
     def eliminarTodo(self, request):
@@ -132,18 +132,18 @@ class DocenteController(Controller):
         Returns:
             Un objeto JSON vac o con un mensaje de error.
         """
-        id = 0
+        idDocente = 0
         if request.is_json: 
             datos = request.get_json()
-            id = datos.get('id') if datos else 0
-        if id == 0:
+            idDocente = datos.get('id') if datos else 0
+        if idDocente == 0:
             if request.form:
-                id = request.form.get('id')
+                idDocente = request.form.get('id')
             else:
-                id = request.args.get('id')
-        if int(id) > 0:
+                idDocente = request.args.get('id')
+        if int(idDocente) > 0:
             return self.rdelete({
                 'nombreTabla': self.nombreTabla,
-                'idEliminar': int(id)
+                'idEliminar': int(idDocente)
             })
         return None

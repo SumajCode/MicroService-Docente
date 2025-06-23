@@ -7,7 +7,7 @@ from domain.PatchResponse import RespuestaPatch
 class Controller(RespuestaGet, RespuestaPost, RespuestaDelete, RespuestaSQL, RespuestaPatch):
 
     def __init__(self):
-        super().__init__()
+        pass
 
     def get(self, datos):
         return self.rget(datos)

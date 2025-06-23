@@ -1,6 +1,5 @@
 import requests
 import os
-from flask import jsonify
 from werkzeug.utils import secure_filename
 from infra.controllers.Controller import Controller
 from scripts.docs.ReadingDocs import ReadingDocs
@@ -152,17 +151,18 @@ class MatriculaController(Controller):
         Returns:
             Un objeto JSON vac o con un mensaje de error.
         """
-        id = 0
+        idMatricula = 0
         if request.is_json: 
             datos = request.get_json()
-            id = datos.get('id') if datos else 0
-        if id == 0:
+            idMatricula = datos.get('id') if datos else 0
+        if idMatricula == 0:
             if request.form:
-                id = request.form.get('id')
+                idMatricula = request.form.get('id')
             else:
-                id = request.args.get('id')
-        if int(id) > 0:
+                idMatricula = request.args.get('id')
+        if int(idMatricula) > 0:
             return self.rdelete({
                 'nombreTabla': self.nombreTabla,
-                'idEliminar': int(id)
+                'idEliminar': int(idMatricula)
             })
+        return None

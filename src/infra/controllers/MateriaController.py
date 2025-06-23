@@ -30,17 +30,17 @@ class MateriaController(Controller):
             'condiciones':None})
 
     def listarPorDocente(self, request):
-        id = 0
+        idDocente = 0
         if request.is_json: 
             datos = request.get_json()
-            id = datos.get('id') if datos else 0
-        if id == 0:
+            idDocente = datos.get('id') if datos else 0
+        if idDocente == 0:
             if request.form:
-                id = request.form.get('id')
+                idDocente = request.form.get('id')
             else:
-                id = request.args.get('id')
-        if int(id) > 0:
-            return self.getSQL(consultaParaMateriaDocentes(int(id)))
+                idDocente = request.args.get('id')
+        if int(idDocente) > 0:
+            return self.getSQL(consultaParaMateriaDocentes(int(idDocente)))
         return None
 
     def crear(self, request):
@@ -76,17 +76,17 @@ class MateriaController(Controller):
             "datos":datosImportantes})
 
     def eliminar(self, request):
-        id = 0
+        idMateria = 0
         if request.is_json: 
             datos = request.get_json()
-            id = datos.get('id') if datos else 0
-        if id == 0:
+            idMateria = datos.get('id') if datos else 0
+        if idMateria == 0:
             if request.form:
-                id = request.form.get('id')
+                idMateria = request.form.get('id')
             else:
-                id = request.args.get('id')
-        if int(id) > 0:
-            return self.getSQL(eliminarMatriculadosPorMateria(int(id)))
+                idMateria = request.args.get('id')
+        if int(idMateria) > 0:
+            return self.getSQL(eliminarMatriculadosPorMateria(int(idMateria)))
         return None
     
     def eliminarTodo(self, request):
@@ -96,18 +96,18 @@ class MateriaController(Controller):
         Returns:
             Un objeto JSON vac o con un mensaje de error.
         """
-        id = 0
+        idMateria = 0
         if request.is_json: 
             datos = request.get_json()
-            id = datos.get('id') if datos else 0
-        if id == 0:
+            idMateria = datos.get('id') if datos else 0
+        if idMateria == 0:
             if request.form:
-                id = request.form.get('id')
+                idMateria = request.form.get('id')
             else:
-                id = request.args.get('id')
-        if int(id) > 0:
+                idMateria = request.args.get('id')
+        if int(idMateria) > 0:
             return self.rdelete({
                 'nombreTabla': self.nombreTabla,
-                'idEliminar': int(id)
+                'idEliminar': int(idMateria)
             })
         return None
