@@ -39,9 +39,9 @@ class MateriaController(Controller):
                 id = request.form.get('id')
             else:
                 id = request.args.get('id')
-        id = int(id)
-        if id > 0:
-            return self.getSQL(consultaParaMateriaDocentes(id))
+        if int(id) > 0:
+            return self.getSQL(consultaParaMateriaDocentes(int(id)))
+        return None
 
     def crear(self, request):
         """
@@ -50,8 +50,7 @@ class MateriaController(Controller):
         Este método toma los datos de la materia del request, filtra las columnas
         relevantes, y luego los inserta en la tabla correspondiente.
 
-        Args:
-            request: El request que contiene los datos de la materia, en formato JSON
+        request: El request que contiene los datos de la materia, en formato JSON
                 o formulario.
 
         Returns:
@@ -86,9 +85,9 @@ class MateriaController(Controller):
                 id = request.form.get('id')
             else:
                 id = request.args.get('id')
-        id = int(id)
-        if id > 0:
-            return self.getSQL(eliminarMatriculadosPorMateria(id))
+        if int(id) > 0:
+            return self.getSQL(eliminarMatriculadosPorMateria(int(id)))
+        return None
     
     def eliminarTodo(self, request):
         """
@@ -106,8 +105,9 @@ class MateriaController(Controller):
                 id = request.form.get('id')
             else:
                 id = request.args.get('id')
-        if id > 0:
+        if int(id) > 0:
             return self.rdelete({
                 'nombreTabla': self.nombreTabla,
-                'idEliminar': id
+                'idEliminar': int(id)
             })
+        return None

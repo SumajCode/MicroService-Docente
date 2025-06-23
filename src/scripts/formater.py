@@ -10,9 +10,8 @@ class Formater:
         en una lista de diccionarios, donde cada diccionario representa una fila
         con sus respectivos valores asociados a cada columna.
 
-        Args:
-            columnas (list): Lista de nombres de columnas.
-            temporalDatos (list): Lista de filas de datos.
+        columnas (list): Lista de nombres de columnas.
+        temporalDatos (list): Lista de filas de datos.
 
         Returns:
             list: Lista de diccionarios, cada diccionario representa una fila con
@@ -35,8 +34,8 @@ class Formater:
         - message: 'OK'
         - status: 200
 
-        :param datos: lista de datos
-        :return: objeto JSON con las claves mencionadas
+        datos: lista de datos
+        return: objeto JSON con las claves mencionadas
         """
         nuevosDatos = []
         for dato in datos:

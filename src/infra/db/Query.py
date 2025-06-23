@@ -130,9 +130,10 @@ def seleccionarCon(nombreTabla: str, columnas: list, condiciones: dict):
         if nombreTabla is not None:
             if condiciones is None:
                 return seleccionar(nombreTabla, columnas)
-            
-    except:
-        return ""
+            return None
+        return None
+    except Exception as e:
+        return f"Ocurrio un error{e}"
 
 def seleccionGroupBy(nombreTabla: str, columnas: list, columnaAgrupar: str):
     """

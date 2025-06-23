@@ -33,8 +33,7 @@ class DocenteController(Controller):
         """
         Listar un docente específico, excepto los campos create_at y update_at.
 
-        Args:
-            request: El request que contiene el identificador del docente.
+        request: El request que contiene el identificador del docente.
 
         Returns:
             Un objeto JSON con el docente especificado.
@@ -48,17 +47,15 @@ class DocenteController(Controller):
                 id = request.form.get('id')
             else:
                 id = request.args.get('id')
-        id = int(id)
-        if id > 0:
-            print(id)
-            return self.getSQL(consultaPorId(id, self.columnas[1:-2], self.nombreTabla))
+        if int(id) > 0:
+            return self.getSQL(consultaPorId(int(id), self.columnas[1:-2], self.nombreTabla))
+        return None
 
     def listarMaterias(self, request):
         """
         Lista todas las materias asociadas a un docente específico.
 
-        Args:
-            request: Objeto de solicitud que contiene el identificador del docente.
+        request: Objeto de solicitud que contiene el identificador del docente.
 
         Returns:
             Un objeto JSON con la lista de materias asociadas al docente especificado.
@@ -72,9 +69,9 @@ class DocenteController(Controller):
                 id = request.form.get('id')
             else:
                 id = request.args.get('id')
-        id = int(id)
-        if id > 0:
-            return self.getSQL(consultaParaDocenteMaterias(id))
+        if int(id) > 0:
+            return self.getSQL(consultaParaDocenteMaterias(int(id)))
+        return None
 
     def crear(self, request):
         """
@@ -83,8 +80,7 @@ class DocenteController(Controller):
         Este método toma los datos del docente del request, filtra las columnas
         relevantes, y luego los inserta en la tabla correspondiente.
 
-        Args:
-            request: El request que contiene los datos del docente, en formato JSON
+        request: El request que contiene los datos del docente, en formato JSON
             o formulario.
 
         Returns:
@@ -125,9 +121,9 @@ class DocenteController(Controller):
                 id = request.form.get('id')
             else:
                 id = request.args.get('id')
-        id = int(id)
-        if id > 0:
-            return self.getSQL(eliminarDocenteYMateria(id))
+        if int(id) > 0:
+            return self.getSQL(eliminarDocenteYMateria(int(id)))
+        return None
 
     def eliminarTodo(self, request):
         """
@@ -145,8 +141,9 @@ class DocenteController(Controller):
                 id = request.form.get('id')
             else:
                 id = request.args.get('id')
-        if id > 0:
+        if int(id) > 0:
             return self.rdelete({
                 'nombreTabla': self.nombreTabla,
-                'idEliminar': id
+                'idEliminar': int(id)
             })
+        return None

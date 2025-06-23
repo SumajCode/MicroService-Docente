@@ -12,6 +12,7 @@ class RespuestaGet:
         self.formater = Formater()
     
     def getDatosDB(self, opciones):
+        temporalDatos = None
         if opciones['columnas'] is not None:
             temporalDatos = self.ejecutor.ejecutarConsulta(ordenarPor(
                     opciones['tabla'],
@@ -23,7 +24,7 @@ class RespuestaGet:
                 ))
         return self.formater.json(self.formater.formatoResSQL(opciones['columnas'], temporalDatos))
 
-    def getDatosDBJoin(self, opciones, condiciones):
+    def getDatosDBJoin(self, opciones):
         datos=[]
         if opciones['columnas'] is not None:
             # temporalDatos = self.ejecutor.ejecutarConsulta(seleccionarJoin(
@@ -35,22 +36,20 @@ class RespuestaGet:
             #         opciones['columnaAgrupar']
             #     ))
             pass
-        return self.formater.json(self.formater.formatoResSQL(opciones['columnas']
-                                                            #   , temporalDatos
-                                                              ))
+        return self.formater.json(self.formater.formatoResSQL(opciones['columnas'],datos))
 
     def rget(self, datos):
         try:
             datosObtenidos = datos['datosObtenidos']
             opciones = datos['opciones']
-            condiciones = datos['condiciones']
+            # condiciones = datos['condiciones']
             if datosObtenidos is None and 'tabla' in opciones.keys():
                 return self.getDatosDB(opciones)
             # if condiciones is not None:
             #     return self.getDatosDBJoin(opciones, condiciones)
             return self.formater.json(datosObtenidos)
         except (APIHTTPExceptionsClient and APIHTTPExceptionsServer) as excep:
-            return self.json({
+            return self.formater.json({
                 'message' : excep.description,
                 'status' : excep.code
             })

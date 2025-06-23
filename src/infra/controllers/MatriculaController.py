@@ -21,8 +21,7 @@ class MatriculaController(Controller):
         """
         Listar todas las matrículas, con detalles específicos.
 
-        Args:
-            request: El request que podría contener filtros o configuraciones
+        request: El request que podría contener filtros o configuraciones
             adicionales para personalizar la lista de matrículas.
 
         Returns:
@@ -67,9 +66,8 @@ class MatriculaController(Controller):
         """
         Devuelve una lista de matriculados seg n el archivo cargado.
 
-        Args:
-            request (flask.Request): El request que contiene el archivo
-                a procesar.
+        request (flask.Request): El request que contiene el archivo
+            a procesar.
 
         Returns:
             dict: Contiene la lista de matriculados en la clave
@@ -163,8 +161,8 @@ class MatriculaController(Controller):
                 id = request.form.get('id')
             else:
                 id = request.args.get('id')
-        if id > 0:
+        if int(id) > 0:
             return self.rdelete({
                 'nombreTabla': self.nombreTabla,
-                'idEliminar': id
+                'idEliminar': int(id)
             })

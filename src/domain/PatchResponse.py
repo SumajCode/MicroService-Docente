@@ -14,7 +14,13 @@ class RespuestaPatch:
     def rpatch(self, datos):
         try:
             if datos['idEditar'] is not None and datos['nombreTabla'] is not None and datos['datos'] is not None:
-                return self.formater.json(self.ejecutor.ejecutarConsulta(actualizar(datos['idEditar'], datos['nombreTabla'], datos['datos'])))
+                return self.formater.json(self.ejecutor.ejecutarConsulta(
+                    actualizar(
+                        datos['idEditar'], 
+                        datos['nombreTabla'], 
+                        datos['datos']))
+                )
+            return None
         except APIHTTPExceptionsClient and APIHTTPExceptionsServer as excep:
             return self.formater.json({
                 'message' : excep.description,

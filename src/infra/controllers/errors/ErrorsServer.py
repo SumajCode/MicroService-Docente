@@ -3,7 +3,8 @@ from werkzeug.exceptions import HTTPException
 class APIHTTPExceptionsServer(HTTPException):
 
     def __init__(self):
-        pass
+        self.code = 0
+        self.description = ""
 
     def serverError(self):
         self.code = 500

@@ -10,25 +10,17 @@ class EvaluacionController(Controller):
         self.columnas = modelo.getNombreColumnas()
 
     def listar(self):
-        return self.get(opciones={
-                'tabla':self.nombreTabla,
-                'columnas':self.columnas[1:],
-                'columnaOrden':None,
-                'asc':None,
-                'desc':None,
-                'columnaAgrupar':None
-            })
+        return None
 
-    def crear(self, request):
+    def crear(self):
         datosImportantes = {}
-        datos = request.get_json() if request.is_json else request.form
-        for i  in self.columnas:
-            if i in datos:
-                print(datos.get(i))
-                datosImportantes[i] = datos.get(i)
+        # datos = request.get_json() if request.is_json else request.form
+        # for i  in self.columnas:
+        #     if i in datos:
+        #         datosImportantes[i] = datos.get(i)
         return self.post({'tabla': self.nombreTabla, 'datos': datosImportantes})
 
-    def modificar(self, request):
+    def modificar(self):
         pass
 
     def eliminar(self):

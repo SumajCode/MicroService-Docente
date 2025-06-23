@@ -24,7 +24,8 @@ disable=
     R0903,  # too-few-public-methods
     W0511,  # fixme (comentarios TODO, FIXME, etc.)
     R0801,  # similar lines (en caso de usar sqlalchemy u otro)
-    W0718   # Exceptions generals
+    W0718,  # Exceptions generals
+    E0401,  # Libraries not know but yes install
 
 [REPORTS]
 # Desactiva el reporte final de puntuación

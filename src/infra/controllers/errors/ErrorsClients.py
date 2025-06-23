@@ -2,7 +2,8 @@ from werkzeug.exceptions import HTTPException
 
 class APIHTTPExceptionsClient(HTTPException):
     def __init__(self):
-        pass
+        self.code = 0
+        self.description = ""
 
     def invalidAccess(self):
         self.code = 403
