@@ -1,6 +1,5 @@
 import pymysql
 import pymysql.cursors
-import ssl
 import psycopg
 
 from config.conf import BaseConf
