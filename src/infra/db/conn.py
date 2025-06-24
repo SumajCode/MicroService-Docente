@@ -1,5 +1,6 @@
 import pymysql
 import pymysql.cursors
+import ssl
 import psycopg
 
 from config.conf import BaseConf
@@ -22,13 +23,16 @@ class Conexion:
             A cursor object for executing SQL queries on the database.
         """
 
-        conn = pymysql.connect(
+        return pymysql.connect(
             host=BaseConf.SQL_HOST,
             user=BaseConf.SQL_USER,
             passwd=BaseConf.SQL_PASSWORD,
             db=BaseConf.SQL_DB,
+            port=int(BaseConf.SQL_PORT),
+            ssl=ssl.create_default_context(),
+            charset='utf8mb4',
+            autocommit=True,
             cursorclass=pymysql.cursors.DictCursor)
-        return conn.cursor()
 
     def conectarPostgres(self):
         """Connect to a PostgreSQL database

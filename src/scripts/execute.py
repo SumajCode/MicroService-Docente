@@ -10,13 +10,13 @@ class Ejecutar:
         If SQL_ACTIVE is True, it connects to the SQL Server database.
         If both are True, it connects to both databases.
         """
-        connexion = Conexion()
-        if BaseConf.POSTGRES_ACTIVE:
-            self.connPostSQL = connexion.conectarPostgres()
-            self.connSQL = None
-        if BaseConf.SQL_ACTIVE:
-            self.connSQL = connexion.conectarSQL()
-            self.connPostSQL = None
+        self.connexion = Conexion()
+        # if BaseConf.POSTGRES_ACTIVE:
+        #     self.connPostSQL = connexion.conectarPostgres()
+        #     self.connSQL = None
+        # if BaseConf.SQL_ACTIVE:
+        #     self.connSQL = connexion.conectarSQL()
+        #     self.connPostSQL = None
         # if BaseConf.POSTGRES_ACTIVE and BaseConf.SQL_ACTIVE:
         #     self.connPostSQL = Conexion.conectarPostgres()
         #     self.conn2 = Conexion.conectarSQL()
@@ -37,11 +37,16 @@ class Ejecutar:
         Returns:
             list: A list of tuples containing the results of the query.
         """
-        conn = self.connSQL if self.connPostSQL is None else self.connPostSQL
-        conn.execute(consulta)
-        if "UPDATE" in consulta or "CREATE" in consulta or "INSERT" in consulta:
-            conn.connection.commit()
-        return conn.fetchall()
+        try:
+            with self.connexion.conectarSQL() as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute(consulta)
+                    if consulta.strip().upper().startswith(('INSERT', 'DELETE', 'INSERT', 'CREATE', 'DROP')):
+                        cursor.connection.commit()
+                        return {'message':'Consulta realizada correctamente.'}
+                    return cursor.fetchall()
+        except Exception as excep:
+            raise excep
 
     def crearTabla(self):
         def nuevaMigracion(model: Tabla):
