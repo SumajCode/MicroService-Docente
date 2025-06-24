@@ -41,7 +41,7 @@ class MatriculaController(Controller):
                 'datosObtenidos':None,
                 'opciones':{
                     'tabla': self.nombreTabla,
-                    'columnas':self.columnas[1:],
+                    'columnas':self.columnas,
                     'columnaOrden':None,
                     'asc':None,
                     'desc':None,

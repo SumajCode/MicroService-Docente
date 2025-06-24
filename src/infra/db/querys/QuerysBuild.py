@@ -16,6 +16,8 @@ def consultaParaDocenteMaterias(idDocente):
 
     return f"""
 SELECT
+    D.id as IdDocente,
+    M.id AS IdMateria,
     M.nombre_materia AS NombreMateria,
     M.nivel_estudio AS NivelEstudio,
     (SELECT COUNT(*) FROM matricula WHERE M.id = matricula.id_materia) as NumeroEstudiantes
@@ -39,6 +41,8 @@ def consultaParaMateriaDocentes(idMateria):
     """
     return f"""
 SELECT
+    D.id AS IdDocente,
+    M.id AS IdMateria,
     D.nombre AS NombreDocente,
     D.apellidos AS ApellidosDocente,
     D.correo AS CorreoDocente,

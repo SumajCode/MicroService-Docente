@@ -21,3 +21,7 @@ def crearMatricula():
 @blueprint.route('/crear/matriculas', methods=['POST'])
 def crearMatriculas():
     return controlador.crearMatriculados(request)
+
+@blueprint.route('/crear/matricula/id', methods=['POST'])
+def crearMatriculasPorIdMateria():
+    return controlador.crearPorIDMateria(request)

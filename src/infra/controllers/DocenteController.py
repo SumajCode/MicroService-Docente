@@ -21,7 +21,7 @@ class DocenteController(Controller):
             'datosObtenidos':None,
             'opciones':{
                 'tabla': self.nombreTabla,
-                'columnas':self.columnas[1:-2],
+                'columnas':self.columnas[:-2],
                 'columnaOrden':None,
                 'asc':None,
                 'desc':None,
@@ -48,7 +48,7 @@ class DocenteController(Controller):
             else:
                 idDocente = request.args.get('id')
         if int(idDocente) > 0:
-            return self.getSQL(consultaPorId(int(idDocente), self.columnas[1:-2], self.nombreTabla))
+            return self.getSQL(consultaPorId(int(idDocente), self.columnas[:-2], self.nombreTabla))
         return None
 
     def listarMaterias(self, request):
