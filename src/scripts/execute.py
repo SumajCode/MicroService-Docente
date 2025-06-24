@@ -46,6 +46,7 @@ class Ejecutar:
                         return {'message':'Consulta realizada correctamente.'}
                     return cursor.fetchall()
         except Exception as excep:
+            print(f'Ocurrio un erro en la consulta: {excep}')
             raise excep
 
     def crearTabla(self):

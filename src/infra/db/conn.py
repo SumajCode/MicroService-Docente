@@ -29,7 +29,7 @@ class Conexion:
             passwd=BaseConf.SQL_PASSWORD,
             db=BaseConf.SQL_DB,
             port=int(BaseConf.SQL_PORT),
-            ssl=ssl.create_default_context(),
+            # ssl=ssl.create_default_context(),
             charset='utf8mb4',
             autocommit=True,
             cursorclass=pymysql.cursors.DictCursor)
