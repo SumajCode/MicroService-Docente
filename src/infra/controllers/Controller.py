@@ -7,11 +7,7 @@ from domain.PatchResponse import RespuestaPatch
 class Controller(RespuestaGet, RespuestaPost, RespuestaDelete, RespuestaSQL, RespuestaPatch):
 
     def __init__(self):
-        RespuestaGet.__init__(self)
-        RespuestaPost.__init__(self)
-        RespuestaDelete.__init__(self)
-        RespuestaSQL.__init__(self)
-        RespuestaPatch.__init__(self)
+        super().__init__()
 
     def get(self, datos):
         return self.rget(datos)
