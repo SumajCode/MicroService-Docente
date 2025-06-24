@@ -42,8 +42,8 @@ class Ejecutar:
                 with conn.cursor() as cursor:
                     cursor.execute(consulta)
                     if consulta.strip().upper().startswith(('INSERT', 'DELETE', 'INSERT', 'CREATE', 'DROP')):
+                        print(f"consulta: {consulta}")
                         cursor.connection.commit()
-                        return {'message':'Consulta realizada correctamente.'}
                     return cursor.fetchall()
         except Exception as excep:
             print(f'Ocurrio un erro en la consulta: {excep}')
