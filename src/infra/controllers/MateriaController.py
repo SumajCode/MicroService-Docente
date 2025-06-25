@@ -1,6 +1,6 @@
 from infra.controllers.Controller import Controller
 from infra.models.MateriaModel import MateriaModel
-from infra.db.querys.QuerysBuild import consultaParaMateriaDocentes, eliminarMatriculadosPorMateria
+from infra.db.querys.QuerysBuild import consultaParaMateriaDocentes, eliminarMatriculadosPorMateria, consultaPorId
 
 class MateriaController(Controller):
 
@@ -28,7 +28,21 @@ class MateriaController(Controller):
                 'columnaAgrupar':None
             },
             'condiciones':None})
-
+    
+    def listarId(self, request):
+        idMateria = 0
+        if request.is_json: 
+            datos = request.get_json()
+            idMateria = datos.get('id') if datos else 0
+        if idMateria == 0:
+            if request.form:
+                idMateria = request.form.get('id')
+            else:
+                idMateria = request.args.get('id')
+        if int(idMateria) > 0:
+            return self.getSQL(consultaPorId(int(idMateria), self.columnas, self.nombreTabla))
+        return None
+    
     def listarPorDocente(self, request):
         idDocente = 0
         if request.is_json: 
