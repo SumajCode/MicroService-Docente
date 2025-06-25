@@ -15,6 +15,7 @@ class RespuestaSQL:
 
         return: The JSON formatted result of the query execution.
         """
+        print("Consulta: ", query)
         return self.formater.json(self.ejecutor.ejecutarConsulta(query))
     
     def deleteAndGetSQL(self, querys):

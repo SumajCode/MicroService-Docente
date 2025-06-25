@@ -30,6 +30,10 @@ def obtenerMateriasPorDocente():
 def crearDocente():
     return controlador.crear(request)
 
+@blueprint.route('/login', methods=['POST'])
+def loginDocente():
+    return controlador.login(request)
+
 @blueprint.route('/editar', methods=['PATCH'])
 def editarDocente():
     return controlador.modificar(request)

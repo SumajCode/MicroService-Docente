@@ -1,6 +1,7 @@
 from scripts.formater import Formater
 from scripts.execute import Ejecutar
 from infra.db.Query import insertarEnTabla, insertarTodoEnTabla
+import hashlib
 
 class RespuestaPost:
 
@@ -22,8 +23,12 @@ class RespuestaPost:
         :rtype: json
         """
         try:
-            data = self.ejecutor.ejecutarConsulta(insertarEnTabla(data['tabla'], data['datos']))
-            return self.formater.json(data)
+            datosCripto = data
+            keys = datosCripto['datos'].keys()
+            if 'password' in keys:
+                datosCripto['datos']['password'] = hashlib.sha256(datosCripto['datos']['password'].encode()).hexdigest()
+            dataQuery = self.ejecutor.ejecutarConsulta(insertarEnTabla(datosCripto['tabla'], datosCripto['datos']))
+            return self.formater.json(dataQuery)
         except Exception as excep:
             return self.formater.json({
                 'message' : str(excep),

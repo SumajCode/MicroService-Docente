@@ -1,6 +1,7 @@
 from infra.controllers.Controller import Controller
 from infra.models.DocenteModel import DocenteModel
-from infra.db.querys.QuerysBuild import eliminarDocenteYMateria, consultaParaDocenteMaterias, consultaPorId
+from infra.db.querys.QuerysBuild import eliminarDocenteYMateria, consultaParaDocenteMaterias, consultaPorId, consultaLogin
+import hashlib
 
 class DocenteController(Controller):
 
@@ -147,3 +148,8 @@ class DocenteController(Controller):
                 'idEliminar': int(idDocente)
             })
         return None
+
+    def login(self, request):
+        datos = request.get_json() if request.is_json else request.form
+        datos['password'] = hashlib.sha256(datos['password'].encode()).hexdigest()
+        return self.getSQL(consultaLogin(datos['user'], datos['password']))

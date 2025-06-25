@@ -86,3 +86,9 @@ def eliminarMatriculadosPorMateria(idMateria):
 DELETE FROM materia WHERE materia.id = {idMateria};
 DELETE FROM matricula WHERE matricula.id_materia = {idMateria};
 """]
+
+def consultaLogin(user, password):
+    return f"""
+SELECT * FROM docente AS D
+WHERE D.usuario = "{user}" and D.password = "{password}"
+"""
