@@ -18,7 +18,7 @@ def eliminarMaterias():
 def obtenerMaterias():
     return controlador.listar()
 
-@blueprint.route('/listar', methods=['GET'])
+@blueprint.route('/listar/id', methods=['GET'])
 def obtenerMateriaId():
     return controlador.listarId(request)
 
