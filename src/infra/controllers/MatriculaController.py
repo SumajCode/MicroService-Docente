@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 from infra.controllers.Controller import Controller
 from scripts.docs.ReadingDocs import ReadingDocs
 from infra.models.MatriculaModel import MatriculaModel
+from infra.db.querys.QuerysBuild import consultaPorId
 from config.conf import BaseConf
 
 class MatriculaController(Controller):
@@ -60,6 +61,33 @@ class MatriculaController(Controller):
             "datosObtenidos": estudiantesDatos,
             "opciones": None,
             "condiciones": None})
+
+    def listarMatriculadoId(self, request):
+        requestLocal = request.get_json() if request.is_json else request.args
+        idMatriculado = 0
+        if requestLocal is not None:
+            idMatriculado = requestLocal.get('id_estudiante')
+        else:
+            idMatriculado = request.args.get('id_estudiante')
+        datosTemporales = self.rgetSQL(f"""
+            SELECT DISTINCT {','.join(self.columnas)} 
+            FROM {self.nombreTabla} WHERE id_estudiante = {idMatriculado};
+            """).get_json()['data']
+        if len(datosTemporales) == 1:
+            idMateria = datosTemporales[0]['id_materia']
+            datosContent = requests.post(
+                f"{BaseConf.URL_NEIGHBORG_CONTENT}/modulo/listar", 
+                json={
+                    "todo":"true",
+                    "filter":{
+                        "id_materia":int(idMateria)
+                    }})
+            return self.rget({
+                "datosObtenidos": datosContent.json().get('data'),
+                "opciones": None,
+                "condiciones": None})
+
+
 
     def crearMatriculados(self, request):
         """
@@ -136,9 +164,10 @@ class MatriculaController(Controller):
         datosImportantes = {}
         datos = request.get_json() if request.is_json else request.form
         datosEstudiante = datos.get('estudiante')
-        estudiante = requests.post(f"{self.urlEstudiantes}/estudiantes/registrar", datosEstudiante, timeout=10)
-        if estudiante.status_code == 400:
+        estudiante = requests.post(f"{self.urlEstudiantes}/estudiantes/registrar", json=datosEstudiante, timeout=10)
+        if estudiante.status_code >= 400:
             return self.formater.json({})
+        print("Estudiante: ", estudiante)
         datosImportantes = {
             'id_materia': datos.get('id_materia'),
             'id_estudiante': estudiante.get('data')['id_estudiante']}
