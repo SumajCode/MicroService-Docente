@@ -5,6 +5,7 @@ from infra.controllers.Controller import Controller
 from scripts.docs.ReadingDocs import ReadingDocs
 from infra.models.MatriculaModel import MatriculaModel
 from config.conf import BaseConf
+from infra.db.querys.QuerysBuild import consultaMateriaMatericula
 
 class MatriculaController(Controller):
 
@@ -52,7 +53,7 @@ class MatriculaController(Controller):
                 "opciones": None,
                 "condiciones": None})
         return self.rget({
-            "datosObtenidos": estudiantesDatos,
+            "datosObtenidos": [],
             "opciones": None,
             "condiciones": None})
 
@@ -63,23 +64,24 @@ class MatriculaController(Controller):
             idMatriculado = requestLocal.get('id_estudiante')
         else:
             idMatriculado = request.args.get('id_estudiante')
-        datosTemporales = self.rgetSQL(f"""
-            SELECT DISTINCT {','.join(self.columnas)} 
-            FROM {self.nombreTabla} WHERE {self.nombreTabla}.id_estudiante = {idMatriculado};
-            """).get_json()['data']
-        if len(datosTemporales) == 1:
-            idMateria = dict(datosTemporales[0]).get('id_materia')
-            print("Id Materia: ", idMateria)
+        datosTemporales = self.rgetSQL(consultaMateriaMatericula(idMatriculado)).get_json()['data']
+        print("Datos temporales: ", datosTemporales)
+        idMaterias = []
+        if len(datosTemporales) > 0:
+            for dato in datosTemporales:
+                idMaterias.append(dato.get('id_materia'))
+            print('Ids materias: ', idMaterias)
             datosContent = requests.post(
-                f"{BaseConf.URL_NEIGHBORG_CONTENT}/modulo/listar", 
-                json={
-                    "todo":"true",
-                    "filter":{
-                        "id_materia":int(idMateria)
-                    }})
-            print("Datos contenido", datosContent.json())
+                f"{BaseConf.URL_NEIGHBORG_CONTENT}/modulo/materias",
+                json={"materias":idMaterias}).json()
+            if datosContent and len(datosContent.get('data')) > 0:
+                for item in datosContent.get('data'):
+                    idMateriaItem = item.get('id_materia')
+                    for dato in datosTemporales:
+                        if dato.get('id_materia') == idMateriaItem:
+                            dato['modulos'] = item
             return self.rget({
-                "datosObtenidos": datosContent.json().get('data'),
+                "datosObtenidos": datosTemporales,
                 "opciones": None,
                 "condiciones": None})
         

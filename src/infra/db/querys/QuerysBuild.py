@@ -52,6 +52,17 @@ INNER JOIN materia AS M ON D.id = M.id_docente
 WHERE M.id = {idMateria}
 """
 
+def consultaMateriaMatericula(idEstudiante):
+    return f"""
+SELECT
+    Mtr.id,
+    Mte.nombre_materia,
+    Mtr.id_materia
+FROM materia AS Mte
+INNER JOIN matricula AS Mtr ON Mtr.id_materia = Mte.id
+WHERE Mtr.id_estudiante = {idEstudiante}
+"""
+
 def consultaParaMateriaMatriculados(idMateria):
     """
     Consulta para obtener todos los estudiantes matriculados en una materia determinada
