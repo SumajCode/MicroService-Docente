@@ -27,5 +27,5 @@ def crearMatriculasPorIdMateria():
     return controlador.crearPorIDMateria(request)
 
 @blueprint.route('/listar/estudiante', methods=['GET'])
-def crearMatriculasPorIdEstudiante():
+def listarMatriculasPorIdEstudiante():
     return controlador.listarMatriculadoId(request)

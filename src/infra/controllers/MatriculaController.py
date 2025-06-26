@@ -4,7 +4,6 @@ from werkzeug.utils import secure_filename
 from infra.controllers.Controller import Controller
 from scripts.docs.ReadingDocs import ReadingDocs
 from infra.models.MatriculaModel import MatriculaModel
-from infra.db.querys.QuerysBuild import consultaPorId
 from config.conf import BaseConf
 
 class MatriculaController(Controller):
@@ -38,25 +37,20 @@ class MatriculaController(Controller):
         else:
             idMateria = request.args.get('id_materia')
         if idMateria != '':
-            datosTemporales = self.rget({
-                'datosObtenidos':None,
-                'opciones':{
-                    'tabla': self.nombreTabla,
-                    'columnas':self.columnas,
-                    'columnaOrden':None,
-                    'asc':None,
-                    'desc':None,
-                    'columnaAgrupar':None
-                },
-                'condiciones':None})
-            datosTemporales = datosTemporales.get_json()['data']
+            datosTemporales = self.rgetSQL(f"""
+            SELECT DISTINCT {','.join(self.columnas)} 
+            FROM {self.nombreTabla} WHERE {self.nombreTabla}.id_materia = {idMateria};
+            """).get_json()
+            datosTemporales = datosTemporales['data']
         if len(datosTemporales) > 0:
+            print("Datos temporales: ", datosTemporales)
             datosFiltro = [item['id_estudiante'] for item in datosTemporales]
+            print("Datos filtro: ", datosFiltro)
             datosFiltrados = [item for item in estudiantesDatos if item['id_estudiante'] in datosFiltro]
             return self.rget({
-            "datosObtenidos": datosFiltrados,
-            "opciones": None,
-            "condiciones": None})
+                "datosObtenidos": datosFiltrados,
+                "opciones": None,
+                "condiciones": None})
         return self.rget({
             "datosObtenidos": estudiantesDatos,
             "opciones": None,
@@ -71,10 +65,11 @@ class MatriculaController(Controller):
             idMatriculado = request.args.get('id_estudiante')
         datosTemporales = self.rgetSQL(f"""
             SELECT DISTINCT {','.join(self.columnas)} 
-            FROM {self.nombreTabla} WHERE id_estudiante = {idMatriculado};
+            FROM {self.nombreTabla} WHERE {self.nombreTabla}.id_estudiante = {idMatriculado};
             """).get_json()['data']
         if len(datosTemporales) == 1:
-            idMateria = datosTemporales[0]['id_materia']
+            idMateria = dict(datosTemporales[0]).get('id_materia')
+            print("Id Materia: ", idMateria)
             datosContent = requests.post(
                 f"{BaseConf.URL_NEIGHBORG_CONTENT}/modulo/listar", 
                 json={
@@ -82,12 +77,13 @@ class MatriculaController(Controller):
                     "filter":{
                         "id_materia":int(idMateria)
                     }})
+            print("Datos contenido", datosContent.json())
             return self.rget({
                 "datosObtenidos": datosContent.json().get('data'),
                 "opciones": None,
                 "condiciones": None})
-
-
+        
+        return self.formater.json(datosTemporales)
 
     def crearMatriculados(self, request):
         """
@@ -109,7 +105,7 @@ class MatriculaController(Controller):
                     archivoTemporal = request.files.get('archivo')
 
                     rutaTemporal = os.path.dirname(os.path.abspath(__file__))
-                    rutaCompartida = os.path.abspath(os.path.join(rutaTemporal, "../../shared"))
+                    rutaCompartida = os.path.abspath(os.path.join(rutaTemporal, BaseConf.PATH_UPLOAD))
 
                     ruta = os.path.join(rutaCompartida, secure_filename(archivoTemporal.filename))
                     archivoTemporal.save(ruta)
@@ -131,25 +127,24 @@ class MatriculaController(Controller):
                         'opciones': None,
                         'condiciones': None}).get_json()
                 os.remove(nombreArchivo)
-                urlPost = f"{self.urlEstudiantes}/registrarLoteEstudiantes"
-                response = requests.post(url=urlPost, json=predata['data'], timeout=10)
-                contentType = response.headers.get('Content-Type', '')
-                if response.status_code >= 200 and response.status_code < 300 and 'application/json' in contentType:
-                    response = response.json()
-                    response = response.get('resultados')
-                    datosEstudiantes = [item['data']['id_estudiante'] for item in response]
-                    datosPost = [{'id_materia': materia, 'id_estudiante': item} for item in datosEstudiantes if item is not None]
-                    return self.rallpost({
-                        'tabla': self.nombreTabla,
-                        'datos':{
-                            'data': datosPost,
-                            'columns': self.columnas[1:]
-                        }})
+            urlPost = f"{self.urlEstudiantes}/registrarLoteEstudiantes"
+            response = requests.post(url=urlPost, json=predata['data'])
+            contentType = response.headers.get('Content-Type', '')
+            if response.status_code >= 200 and response.status_code < 300 and 'application/json' in contentType:
+                response = response.json()
+                response = response.get('resultados')
+                datosEstudiantes = [item['data']['id_estudiante'] for item in response]
+                datosPost = [{'id_materia': materia, 'id_estudiante': item} for item in datosEstudiantes if item is not None]
+                return self.rallpost({
+                    'tabla': self.nombreTabla,
+                    'datos':{
+                        'data': datosPost,
+                        'columns': self.columnas[1:]
+                    }})
             return "Hubo un Error revisa el codigo."
         except Exception as excep:
             return self.formater.json({
-                'message': dict(excep),
-                'status': 500
+                'error':f"Ocurrio un error: {excep}"
             })
 
     def crearPorIDMateria(self, request):
@@ -164,13 +159,23 @@ class MatriculaController(Controller):
         datosImportantes = {}
         datos = request.get_json() if request.is_json else request.form
         datosEstudiante = datos.get('estudiante')
-        estudiante = requests.post(f"{self.urlEstudiantes}/estudiantes/registrar", json=datosEstudiante, timeout=10)
+        datosTemporales = {}
+        for key, value in dict(datosEstudiante).items():
+            datosTemporales[f"{key}_estudiante"] = value
+        estudiante = requests.post(
+            f"{self.urlEstudiantes}/registrarLoteEstudiantes",
+            json=[datosTemporales])
         if estudiante.status_code >= 400:
-            return self.formater.json({})
-        print("Estudiante: ", estudiante)
-        datosImportantes = {
-            'id_materia': datos.get('id_materia'),
-            'id_estudiante': estudiante.get('data')['id_estudiante']}
+            return self.formater.json([estudiante.json()])
+        datosRegistro = dict(estudiante.json().get('resultados')[0])
+        if 'data' in datosRegistro.keys():
+            datosImportantes = {
+                'id_materia': int(datos.get('id_materia')),
+                'id_estudiante': int(datosRegistro.get('data').get('id_estudiante'))}
+        else:
+            datosImportantes = {
+                'id_materia': int(datos.get('id_materia')),
+                'id_estudiante': int(datosRegistro.get('id_estudiante'))}
         return self.rpost({'tabla': self.nombreTabla, 'datos': datosImportantes})
 
     def eliminar(self, request):
