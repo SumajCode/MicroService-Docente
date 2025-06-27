@@ -28,6 +28,7 @@ class BaseConf:
     SECRET_KEY = os.getenv("SECRET_KEY")
     DEBUG = getBoolEnv("DEBUG")
     TESTING = getBoolEnv("TESTING")
+    ENV_DEV = getBoolEnv("ENV_DEV")
 
     POSTGRES_USER = os.getenv("POSTGRES_USER")
     POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD")
