@@ -4,6 +4,15 @@ Microservicio RESTful desarrollado en Flask para la gestión de docentes, materi
 
 ---
 
+# API Microservice
+
+URL deploy de servicio de docente
+```
+https://microservicecompilador.onrender.com/apidocentes/v1
+```
+
+---
+
 ## 🚀 Características
 
 - Arquitectura modular y escalable
@@ -88,6 +97,7 @@ APP_NAME=APIMicroservice
 APP_VERSION=1.0.0
 HOST=localhost
 PORT_API=4003
+ENV_DEV=True
 # Configuración de base de datos
 SQL_USER = "sql5786286"
 SQL_PASSWORD = "YUztaGWNrF"
@@ -96,8 +106,8 @@ SQL_PORT = 3306
 SQL_DB = "sql5786286"
 SQL_ACTIVE = True
 # Hosts vecinos
-URL_NEIGHBORG = "https://microservice-estudiante.onrender.com/api"
-URL_NEIGHBORG_CONTENT = "https://microservice-content.onrender.com/apicontenido/v1"
+URL_NEIGHBORG = "http://127.0.0.1:4002/api"
+URL_NEIGHBORG_CONTENT = "http://127.0.0.1:4004/apicontenido/v1"
 ```
 
 ---
