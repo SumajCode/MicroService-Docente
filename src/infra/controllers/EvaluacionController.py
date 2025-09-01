@@ -1,4 +1,4 @@
-from infra.controllers.Controller import Controller
+from features.controllers.Controller import Controller
 from infra.models.EvaluacionModel import EvaluacionModel
 
 class EvaluacionController(Controller):

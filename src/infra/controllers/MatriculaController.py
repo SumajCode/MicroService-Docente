@@ -65,12 +65,10 @@ class MatriculaController(Controller):
         else:
             idMatriculado = request.args.get('id_estudiante')
         datosTemporales = self.rgetSQL(consultaMateriaMatericula(idMatriculado)).get_json()['data']
-        print("Datos temporales: ", datosTemporales)
         idMaterias = []
         if len(datosTemporales) > 0:
             for dato in datosTemporales:
                 idMaterias.append(dato.get('id_materia'))
-            print('Ids materias: ', idMaterias)
             datosContent = requests.post(
                 f"{BaseConf.URL_NEIGHBORG_CONTENT}/modulo/materias",
                 json={"materias":idMaterias}).json()

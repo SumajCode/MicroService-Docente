@@ -1,4 +1,4 @@
-from infra.controllers.Controller import Controller
+from features.controllers.Controller import Controller
 from infra.models.MateriaModel import MateriaModel
 from infra.db.querys.QuerysBuild import consultaParaMateriaDocentes, eliminarMatriculadosPorMateria, consultaPorId
 

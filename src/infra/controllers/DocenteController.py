@@ -1,4 +1,4 @@
-from infra.controllers.Controller import Controller
+from features.controllers.Controller import Controller
 from infra.models.DocenteModel import DocenteModel
 from infra.db.querys.QuerysBuild import eliminarDocenteYMateria, consultaParaDocenteMaterias, consultaPorId, consultaLogin
 import hashlib
