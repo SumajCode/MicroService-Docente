@@ -1,6 +1,6 @@
 from scripts.formater import Formater
 from scripts.execute import Ejecutar
-from infra.db.Query import insertarEnTabla, insertarTodoEnTabla
+from infra.db.sql.Query import insertarEnTabla, insertarTodoEnTabla
 import hashlib
 
 class RespuestaPost:

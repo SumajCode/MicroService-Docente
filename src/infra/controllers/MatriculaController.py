@@ -1,7 +1,7 @@
 import requests
 import os
 from werkzeug.utils import secure_filename
-from infra.controllers.Controller import Controller
+from features.controllers.Controller import Controller
 from scripts.docs.ReadingDocs import ReadingDocs
 from infra.models.MatriculaModel import MatriculaModel
 from config.conf import BaseConf

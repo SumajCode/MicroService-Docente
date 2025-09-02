@@ -1,12 +1,13 @@
 from scripts.execute import Ejecutar
 from scripts.formater import Formater
-from infra.db.Query import ordenarPor
+from infra.db.sql.SelectSQL import SelectSQL
 
 class RespuestaGet:
 
     def __init__(self):
         self.ejecutor = Ejecutar()
         self.formater = Formater()
+        self.selectSQL = SelectSQL()
     
     def getDatosDB(self, opciones):
         """
@@ -22,7 +23,7 @@ class RespuestaGet:
         """
         temporalDatos = None
         if opciones['columnas'] is not None:
-            temporalDatos = self.ejecutor.ejecutarConsulta(ordenarPor(
+            temporalDatos = self.ejecutor.ejecutarConsulta(self.selectSQL.ordenarPor(
                     opciones['tabla'],
                     opciones['columnas'],
                     opciones['columnaOrden'],
@@ -31,20 +32,6 @@ class RespuestaGet:
                     opciones['columnaAgrupar']
                 ))
         return self.formater.json(self.formater.formatoResSQL(opciones['columnas'], temporalDatos))
-
-    def getDatosDBJoin(self, opciones):
-        datos=[]
-        if opciones['columnas'] is not None:
-            # temporalDatos = self.ejecutor.ejecutarConsulta(seleccionarJoin(
-            #         opciones['tabla'],
-            #         opciones['columnas'],
-            #         opciones['columnaOrden'],
-            #         opciones['asc'],
-            #         opciones['desc'],
-            #         opciones['columnaAgrupar']
-            #     ))
-            pass
-        return self.formater.json(self.formater.formatoResSQL(opciones['columnas'],datos))
 
     def rget(self, datos):
         """

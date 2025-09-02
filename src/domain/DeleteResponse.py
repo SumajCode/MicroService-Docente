@@ -10,7 +10,7 @@ class RespuestaDelete:
 
     def rdelete(self, datos):
         try:
-            if datos['idEliminar'] is not None and datos['nombreTabla'] is not None:
+            if datos['idEliminar'] and datos['nombreTabla']:
                 return self.formater.json(self.ejecutor.ejecutarConsulta(
                     eliminarDeTabla(
                         datos['nombreTabla'], 

@@ -1,4 +1,4 @@
-from infra.db.Query import insertarEnTabla
+from api.src.infra.db.sql.Query import insertarEnTabla
 def test_query_insert():
     consulta = insertarEnTabla(
         nombreTabla="test",

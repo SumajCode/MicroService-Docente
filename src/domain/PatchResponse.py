@@ -1,4 +1,4 @@
-from infra.db.Query import actualizar
+from infra.db.sql.UpdateSQL import UpdateSQL
 
 from scripts.execute import Ejecutar
 from scripts.formater import Formater
@@ -8,6 +8,7 @@ class RespuestaPatch:
     def __init__(self):
         self.ejecutor = Ejecutar()
         self.formater = Formater()
+        self.updateSQL = UpdateSQL()
 
     def rpatch(self, datos):
         """
@@ -24,7 +25,7 @@ class RespuestaPatch:
         try:
             if datos['idEditar'] is not None and datos['nombreTabla'] is not None and datos['datos'] is not None:
                 return self.formater.json(self.ejecutor.ejecutarConsulta(
-                    actualizar(
+                    self.updateSQL.actualizar(
                         datos['idEditar'], 
                         datos['nombreTabla'], 
                         datos['datos']))
