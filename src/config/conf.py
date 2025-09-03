@@ -53,6 +53,12 @@ class BaseConf:
     URL_NEIGHBORG_CONTENT = os.getenv("URL_NEIGHBORG_CONTENT")
 
     PATH_UPLOAD = os.getenv("PATH_UPLOAD")
+
+    HOST_MQ = os.getenv("HOST_MQ")
+    PORT_MQ = os.getenv("PORT_MQ")
+    NAME_QUEUE = os.getenv("NAME_QUEUE")
+    USER_MQ = os.getenv("USER_MQ")
+    PASSWORD_MQ = os.getenv("PASSWORD_MQ")
     # GOOGLE_AUTENTICATION_CLIENT_ID = os.getenv("GOOGLE_AUTENTICATION_CLIENT_ID")
     # GOOGLE_AUTHENTICATION_CLIENT_SECRET = os.getenv("GOOGLE_AUTHENTICATION_CLIENT_SECRET")
 

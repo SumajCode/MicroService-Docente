@@ -1,6 +1,7 @@
-from infra.db.conn import Conexion
+from infra.db.orm.conn import Conexion
+from infra.db.sql.Query import Query
 from config.conf import BaseConf
-from infra.db.Table import Tabla
+from infra.db.orm.Table import Tabla
 
 class Ejecutar:
     def __init__(self):
@@ -11,6 +12,7 @@ class Ejecutar:
         If both are True, it connects to both databases.
         """
         self.connexion = Conexion()
+        self.query = Query()
         # if BaseConf.POSTGRES_ACTIVE:
         #     self.connPostSQL = connexion.conectarPostgres()
         #     self.connSQL = None
@@ -72,34 +74,14 @@ class Ejecutar:
             consulta = self.ejecutarConsulta(f"SHOW FULL TABLES FROM {BaseConf.SQL_DB}")
             nombreColumna = f'Tables_in_{BaseConf.SQL_DB}'
             if modelo.nombreTabla not in [tabla[nombreColumna] for tabla in consulta]:
-                self.ejecutarConsulta(modelo.consultaCrearTabla())
+                self.ejecutarConsulta(self.query.consultaCrearTabla(modelo))
                 print(f"Creacion de tabla {modelo.nombreTabla} exitosa.")
                 return "Creacion de tabla exitosa."
             print(f"La tabla {modelo.nombreTabla} ya existe.")
-            print(self.agregarColumnaTabla(modelo))
+            print(self.query.agregarColumnaTabla(modelo, self.ejecutarConsulta))
             return "La tabla ya existe."
         return nuevaMigracion
     
     def eliminarTablas(self):
         pass
-
-    def agregarColumnaTabla(self, modelo: Tabla):
-        nombreTabla = modelo.nombreTabla
-        columnasActuales = modelo.getNombreColumnas()
-        columnasDB = []
-        consulta = self.ejecutarConsulta(f"DESCRIBE {nombreTabla};")
-        for columna in consulta:
-            columnasDB.append(columna['Field'])
-        columnasAdicion=[]
-        for nombre in columnasDB:
-            if nombre in columnasActuales:
-                columnasActuales.remove(nombre)
-        if len(columnasActuales) > 0:
-            columnasActuales = [f"ADD COLUMN {modelo.getColumnaPorNombre(columna).columnaSQL()}" for columna in columnasActuales]
-            columnasAdicion.extend(columnasActuales)
-            consulta = f"ALTER TABLE {nombreTabla} \n"
-            consulta += " NULL,\n".join(columnasAdicion)
-            self.ejecutarConsulta(consulta)
-            return "Columnas nuevas agregadas."
-        return "No tiene columnas nuevas."
         

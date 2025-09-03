@@ -1,13 +1,12 @@
-from scripts.formater import Formater
 from scripts.execute import Ejecutar
 from infra.db.sql.Query import insertarEnTabla, insertarTodoEnTabla
 import hashlib
 
 class RespuestaPost:
 
-    def __init__(self):
+    def __init__(self, formater):
         self.ejecutor = Ejecutar()
-        self.formater = Formater()
+        self.formater = formater
 
     def rpost(self, data):
         """

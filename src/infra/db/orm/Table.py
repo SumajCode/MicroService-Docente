@@ -1,41 +1,9 @@
-from infra.db.Query import foreignKey, index, BaseConf
-from infra.db.Column import Columna
+from infra.db.orm.Column import Columna
 
 class Tabla:
     def __init__(self, nombreTabla: str, columnas: list[Columna]):
         self.nombreTabla = nombreTabla
         self.columnas = columnas
-
-    def consultaCrearTabla(self):
-        """
-        Generates a SQL CREATE TABLE statement for the table.
-
-        This method constructs a SQL statement to create a table with the specified
-        columns, including any foreign keys and indexes if applicable based on the
-        active database configuration.
-
-        Returns:
-            str: The SQL CREATE TABLE statement.
-        """
-
-        parametrosTabla = []
-        for i in self.columnas:
-            parametrosTabla.append(i.columnaSQL())
-        llavesForaneas = foreignKey(self.columnas)
-        indexs = index(self.columnas, self.nombreTabla)
-        postgreIndexs = ""
-        if len(llavesForaneas) > 0:
-            parametrosTabla.extend(llavesForaneas)
-        if len(indexs) > 0:
-            if BaseConf.POSTGRES_ACTIVE is False:
-                parametrosTabla.extend(indexs)
-            else:
-                ";\n".join(indexs)
-        return f"""
-CREATE TABLE {self.nombreTabla} (
-{",\n".join(parametrosTabla)}
-);
-{postgreIndexs}"""
     
     def getNombreColumnas(self):
         """

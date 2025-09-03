@@ -1,6 +1,6 @@
-from infra.db.Column import Columna
-from infra.db.Table import Tabla
-from infra.db.DataType import Integer, String, Date, DateTime
+from infra.db.orm.Column import Columna
+from infra.db.orm.Table import Tabla
+from infra.db.orm.DataType import Integer, String, Date, DateTime
 
 class DocenteModel(Tabla):
     nombreTabla='docente'
