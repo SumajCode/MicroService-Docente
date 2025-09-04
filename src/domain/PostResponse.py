@@ -1,12 +1,11 @@
-from scripts.execute import Ejecutar
-from infra.db.sql.Query import insertarEnTabla, insertarTodoEnTabla
 import hashlib
 
 class RespuestaPost:
 
-    def __init__(self, formater):
-        self.ejecutor = Ejecutar()
+    def __init__(self, formater, ejecutar, insert):
+        self.ejecutor = ejecutar
         self.formater = formater
+        self.insert = insert
 
     def rpost(self, data):
         """
@@ -26,7 +25,8 @@ class RespuestaPost:
             keys = datosCripto['datos'].keys()
             if 'password' in keys:
                 datosCripto['datos']['password'] = hashlib.sha256(datosCripto['datos']['password'].encode()).hexdigest()
-            dataQuery = self.ejecutor.ejecutarConsulta(insertarEnTabla(datosCripto['tabla'], datosCripto['datos']))
+            query = self.insert.insertarEnTabla(datosCripto['tabla'], datosCripto['datos'])
+            dataQuery = self.ejecutor.ejecutarConsulta(query)
             return self.formater.json(dataQuery)
         except Exception as excep:
             return self.formater.json({
@@ -47,7 +47,8 @@ class RespuestaPost:
         return: Un JSON con los datos de la respuesta de la consulta.
         """
         try:
-            data = self.ejecutor.ejecutarConsulta(insertarTodoEnTabla(data['tabla'], data['datos']))
+            query = self.insert.insertarTodoEnTabla(data['tabla'], data['datos'])
+            data = self.ejecutor.ejecutarConsulta(query)
             return self.formater.json(data)
         except Exception as excep:
             return self.formater.json({

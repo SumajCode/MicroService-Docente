@@ -1,6 +1,7 @@
 from features.controllers.Controller import Controller
 from infra.models.DocenteModel import DocenteModel
 from infra.db.querys.QuerysBuild import eliminarDocenteYMateria, consultaParaDocenteMaterias, consultaPorId, consultaLogin
+from features.controllers.PostController import PostController
 import hashlib
 
 class DocenteController(Controller):
