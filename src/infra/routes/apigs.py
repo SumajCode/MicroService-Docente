@@ -1,8 +1,7 @@
-from flask import Flask
 from flask import jsonify
 from flask_cors import CORS
-from flask import Blueprint
 
+from flask_openapi.openapi import OpenAPI
 from infra.routes.DocentesRoutes import blueprint as blueDocente
 from infra.routes.MateriasRoutes import blueprint as blueMateria
 from infra.routes.MatriculasRoutes import blueprint as blueMatricula
@@ -11,12 +10,11 @@ from infra.routes.MatriculasRoutes import blueprint as blueMatricula
 # * por clase o modulo como matricula y docente al igual que para post/puts/patch de gets
 
 def crearApp():
-    app = Flask(__name__)
+    app = OpenAPI(__name__)
     CORS(app)
     app.config.from_object('config.conf.BaseConf')
-    padreBlueprint = Blueprint('apidocentes', __name__, url_prefix='/apidocentes/v1')
     
-    @padreBlueprint.route('/')
+    @app.get('/', doc_ui=False)
     def home():
         """
         Root route of the API
@@ -30,10 +28,20 @@ def crearApp():
             'message' : 'OK', 
             'status' : 200
         })
+
+    app.register_api(blueDocente)
+    app.register_api(blueMateria)
+    app.register_api(blueMatricula)
     
-    padreBlueprint.register_blueprint(blueDocente)
-    padreBlueprint.register_blueprint(blueMateria)
-    padreBlueprint.register_blueprint(blueMatricula)
-    app.register_blueprint(padreBlueprint)
-    
+    @app.get('/routes', summary='Routes', tags=None)
+    def routes():
+        routes = []
+        for rule in app.url_map.iter_rules():
+            if not 'swagger' in rule.rule:
+                routes.append(rule.rule)
+        return jsonify({
+            'data': routes,
+            'message' : 'OK',
+            'status' : 200
+        })
     return app

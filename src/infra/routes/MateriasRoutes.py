@@ -1,35 +1,37 @@
-from flask import Blueprint
 from flask import request
+from flask_openapi.models.tag import Tag
+from flask_openapi.blueprint import APIBlueprint
 
 from infra.controllers.MateriaController import MateriaController
 
 controlador = MateriaController()
-blueprint = Blueprint('materia', __name__, url_prefix='/materia')
+tag = Tag(name='Materias', description='Formas de agregar, retirar, leer y modificar materias')
+blueprint = APIBlueprint('materias', __name__, abp_tags=[tag], url_prefix='/materias')
 
-@blueprint.route('/eliminar', methods=['DELETE'])
+@blueprint.delete('/')
 def eliminarMateria():
     return controlador.eliminar(request)
 
-@blueprint.route('/eliminar/todo', methods=['DELETE'])
+@blueprint.delete('/all')
 def eliminarMaterias():
     return controlador.eliminarTodo(request)
 
-@blueprint.route('/listar', methods=['GET'])
+@blueprint.get('/')
 def obtenerMaterias():
     return controlador.listar()
 
-@blueprint.route('/listar/id', methods=['GET'])
+@blueprint.get('/id')
 def obtenerMateriaId():
     return controlador.listarId(request)
 
-@blueprint.route('/docentes', methods=['GET'])
+@blueprint.get('/docentes')
 def obtenerDocentesPorMateria():
     return controlador.listarPorDocente(request)
 
-@blueprint.route('/crear', methods=['POST'])
+@blueprint.post('/')
 def crearMateria():
     return controlador.crear(request)
 
-@blueprint.route('/editar', methods=['PATCH'])
+@blueprint.patch('/')
 def editarMateria():
     return controlador.modificar(request)
